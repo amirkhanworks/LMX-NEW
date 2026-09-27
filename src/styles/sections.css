@@ -177,3 +177,55 @@
 .case-card__spec-wrap{width:100%;overflow-x:auto}
 .case-card__outcome{padding-top:1.5rem;border-top:1px solid var(--paper-10);display:grid;gap:.55rem}
 @media(max-width:991px){.case-card__story{gap:1.5rem}.case-card__media{margin-top:1.25rem}.spec-table{min-width:560px}}
+/* P2 homepage hierarchy refinement */
+.spread{min-height:72vh}
+#spread-title{font-size:clamp(4.75rem,8vw,7rem)}
+.how{padding-block:10vh;gap:3.5rem}
+#how-title{font-size:clamp(4.75rem,8vw,7rem)}
+.how__steps article{min-height:190px;padding:2rem}
+.zoom{height:220vh}
+#zoom-title{font-size:clamp(4.25rem,6.5vw,6.5rem);white-space:normal;max-width:900px;text-wrap:balance}
+.zoom__grid{margin-top:2rem}
+.keychain{padding-block:10vh;gap:6vw}
+#keychain-title{font-size:clamp(4rem,6vw,5.5rem)}
+.safe{height:140vh}
+#safe-title{font-size:clamp(4rem,5.5vw,5.25rem)}
+.renter{padding-block:10vh}
+.renter__block{padding-block:5vh}
+#renter-title{font-size:clamp(3.75rem,5vw,4.75rem);white-space:normal}
+.proof,.testimonials{padding-block:10vh}
+#proof-title{font-size:clamp(3.75rem,5vw,4.75rem)}
+#testimonials-title{font-size:clamp(3.5rem,4.75vw,4.5rem);white-space:normal;text-wrap:balance}
+.proof__grid,.testimonials__grid{margin-top:2.75rem}
+.testimonials__grid{gap:1.25rem}
+
+@media(max-width:991px){
+  .spread{min-height:58svh}
+  .how{padding-block:9vh;gap:2.5rem}
+  #how-title{font-size:clamp(3rem,11vw,4.25rem);white-space:normal;max-width:100%}
+  .how__steps article{min-height:0;padding:1.75rem}
+  #zoom-title{font-size:clamp(2.75rem,10.5vw,4rem);max-width:100%}
+  .keychain{padding-block:9vh;gap:1.5rem}
+  #keychain-title{font-size:clamp(3rem,12vw,4.25rem)}
+  .safe{height:auto}
+  .safe__screen{min-height:72svh;padding-block:9vh}
+  #safe-title{font-size:clamp(2.75rem,11vw,4rem)}
+  .renter{padding-block:9vh}
+  .renter__block{padding-block:4vh}
+  #renter-title{font-size:clamp(3rem,11vw,4rem)}
+  .proof,.testimonials{padding-block:9vh}
+  #proof-title{font-size:clamp(3rem,10vw,4rem)}
+  #testimonials-title{font-size:clamp(2.75rem,9.5vw,3.75rem)}
+  .proof__grid,.testimonials__grid{margin-top:2.25rem}
+}
+
+@media(max-width:560px){
+  #spread-title{font-size:clamp(3rem,12vw,4rem)}
+  #how-title{font-size:clamp(3rem,11vw,3.75rem)}
+  #zoom-title{font-size:clamp(2.75rem,10.5vw,3.5rem)}
+  #keychain-title{font-size:clamp(3rem,12vw,3.75rem)}
+  #safe-title{font-size:clamp(2.75rem,11vw,3.5rem)}
+  #renter-title{font-size:clamp(2.75rem,11vw,3.5rem)}
+  #proof-title{font-size:clamp(2.75rem,10vw,3.5rem)}
+  #testimonials-title{font-size:clamp(2.5rem,9.5vw,3.25rem)}
+}
