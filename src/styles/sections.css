@@ -269,3 +269,56 @@
   .hero #hero-title .display__line{font-size:clamp(2.125rem,9vw,3rem)}
   #rooms-title{font-size:clamp(2.75rem,8.75vw,3.25rem)}
 }
+
+/* Privacy page: document / utility treatment */
+body[data-page="privacy"] .about-hero{
+  padding:10rem var(--gutter) 7rem;
+}
+body[data-page="privacy"] .about-hero > div{
+  max-width:72ch !important;
+  margin:0 auto !important;
+}
+body[data-page="privacy"] .about-hero h1.display{
+  font-size:clamp(2.75rem,5vw,4.75rem);
+  line-height:1;
+  margin:0 0 1.75rem;
+}
+body[data-page="privacy"] .about-hero .prose{
+  max-width:72ch;
+  margin:0;
+  padding-left:0 !important;
+  padding-right:0 !important;
+}
+body[data-page="privacy"] .about-hero .prose p,
+body[data-page="privacy"] .about-hero .prose ul{
+  max-width:72ch;
+}
+body[data-page="privacy"] .about-hero .prose p{
+  margin-block:0 1.25rem;
+}
+body[data-page="privacy"] .about-hero .prose ul{
+  margin-top:-.5rem;
+  margin-bottom:1.5rem;
+  padding-left:1.25rem;
+}
+body[data-page="privacy"] .about-hero .prose strong{
+  font-weight:600;
+}
+@media(max-width:991px){
+  body[data-page="privacy"] .about-hero{
+    padding:7.5rem var(--gutter) 5rem;
+  }
+  body[data-page="privacy"] .about-hero h1.display{
+    font-size:clamp(2.75rem,12vw,4rem);
+    margin-bottom:1.5rem;
+  }
+}
+@media(max-width:560px){
+  body[data-page="privacy"] .about-hero{
+    padding-top:6.75rem;
+  }
+  body[data-page="privacy"] .about-hero h1.display{
+    font-size:clamp(2.5rem,12vw,3.25rem);
+  }
+}
+
