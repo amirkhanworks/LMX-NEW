@@ -173,7 +173,7 @@ for(const [name,viewports] of Object.entries(results.pages)){
     if(name==="home"){
       const h=d.hierarchy||{};
       if(vp.startsWith("1440x")){
-        if(!(h.hero>h.rooms && h.rooms>h.zoom && h.bridge>h.zoom && h.cta>h.zoom)) bad=true;
+        if(!(h.hero>h.rooms && h.rooms>h.zoom && h.bridge>h.zoom && h.cta>=h.safe)) bad=true;
       } else if(vp.startsWith("1024x")){
         if(!(h.hero>=h.rooms && h.rooms>h.zoom)) bad=true;
       } else if(vp.startsWith("390x")){
