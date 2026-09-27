@@ -143,6 +143,12 @@ for (const [name,url] of Object.entries(pages)) {
           before:getComputedStyle(g,"::before").display+":"+getComputedStyle(g,"::before").width+":"+getComputedStyle(g,"::before").backgroundColor,
           after:getComputedStyle(g,"::after").display+":"+getComputedStyle(g,"::after").width+":"+getComputedStyle(g,"::after").backgroundColor
         }));
+        const engineeringTargets=[
+          ...document.querySelectorAll(".process__step .display"),
+          document.querySelector(".engage>h2.display")
+        ].filter(Boolean);
+        out.engineeringGeometryClips=engineeringTargets.map(e=>({selector:e.id||e.className,box:box(e)}).box)
+          .filter(r=>r.right>viewport.width+1||r.left<-1);
       }
 
       return out;
@@ -168,7 +174,7 @@ for(const [name,viewports] of Object.entries(results.pages)){
     const missing=d.requiredChecks.filter(x=>!x.found);
     const badStatus=d.status<200||d.status>=300;
     let bad=false;
-    if(badStatus||d.horizontalOverflow||d.consoleErrors.length||d.pageErrors.length||missing.length||d.geometryClips.length||d.oldVision||d.oldMission||d.prohibitedInTech?.length) bad=true;
+    if(badStatus||d.horizontalOverflow||d.consoleErrors.length||d.pageErrors.length||missing.length||d.geometryClips.length||d.engineeringGeometryClips?.length||d.oldVision||d.oldMission||d.prohibitedInTech?.length) bad=true;
 
     if(name==="home"){
       const h=d.hierarchy||{};
@@ -177,7 +183,7 @@ for(const [name,viewports] of Object.entries(results.pages)){
       } else if(vp.startsWith("1024x")){
         if(!(h.hero>=h.rooms && h.rooms>h.zoom)) bad=true;
       } else if(vp.startsWith("390x")){
-        if(!(h.rooms>h.zoom && h.bridge>h.zoom && h.hero>=30)) bad=true;
+        if(!(h.hero>h.rooms && h.rooms>h.zoom && h.bridge>h.zoom && h.hero>=30)) bad=true;
       }
     }
 
