@@ -26,10 +26,13 @@ jobs:
       - name: Install Chromium
         run: npx --yes playwright@1.55.0 install --with-deps chromium
 
+      - name: Install Playwright package
+        run: npm install --no-save playwright@1.55.0
+
       - name: Run live production QA
         run: |
           mkdir -p qa/live
-          npx --yes -p playwright@1.55.0 node scripts/live-qa.mjs
+          node scripts/live-qa.mjs
 
       - name: Upload live QA evidence
         if: always()
