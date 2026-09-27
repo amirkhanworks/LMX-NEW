@@ -66,8 +66,12 @@ for (const [name,url] of Object.entries(pages)) {
     await page.emulateMedia({reducedMotion:"reduce"});
     const consoleErrors = [];
     const pageErrors = [];
+    const badResponses = [];
+    const requestFailures = [];
     page.on("console",m=>{if(m.type()==="error") consoleErrors.push(m.text())});
     page.on("pageerror",e=>pageErrors.push(String(e)));
+    page.on("response",r=>{if(r.status()>=400) badResponses.push({status:r.status(),url:r.url()})});
+    page.on("requestfailed",r=>requestFailures.push({url:r.url(),failure:r.failure()?.errorText||"unknown"}));
     let response = null;
     let navigationError = null;
     try {
@@ -109,6 +113,8 @@ for (const [name,url] of Object.entries(pages)) {
         requiredChecks,
         consoleErrors:[],
         pageErrors:[],
+        badResponses:[],
+        requestFailures:[],
         geometryClips:[]
       };
 
@@ -206,6 +212,8 @@ for (const [name,url] of Object.entries(pages)) {
     data.status=response?.status()||0;
     data.consoleErrors=consoleErrors;
     data.pageErrors=pageErrors;
+    data.badResponses=badResponses;
+    data.requestFailures=requestFailures;
     data.navigationError=navigationError;
     results.pages[name][viewport.width+"x"+viewport.height]=data;
 
@@ -223,7 +231,7 @@ for(const [name,viewports] of Object.entries(results.pages)){
     const missing=d.requiredChecks.filter(x=>!x.found);
     const badStatus=d.status<200||d.status>=300;
     let bad=false;
-    if(badStatus||d.horizontalOverflow||d.consoleErrors.length||d.pageErrors.length||missing.length||d.geometryClips.length||d.engineeringGeometryClips?.length||d.oldVision||d.oldMission||d.prohibitedInTech?.length) bad=true;
+    if(badStatus||d.horizontalOverflow||d.consoleErrors.length||d.pageErrors.length||d.badResponses?.some(x=>x.status>=500)||d.requestFailures?.length||missing.length||d.geometryClips.length||d.engineeringGeometryClips?.length||d.oldVision||d.oldMission||d.prohibitedInTech?.length) bad=true;
 
     if(name==="home"){
       const h=d.hierarchy||{};
