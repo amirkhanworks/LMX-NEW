@@ -168,3 +168,12 @@
 #how-title br{display:block}
 
 @media(max-width:991px){#renter-title{font-size:80px;white-space:normal}}
+
+.case-card__story{display:grid;gap:1.75rem;max-width:78ch}
+.case-card__client{margin:0;color:var(--paper-60)}
+.case-card__story-block{display:grid;gap:.55rem}
+.case-card__story-block .mono,.case-card__outcome .mono{margin:0}
+.case-card__story-block>p:not(.mono),.case-card__outcome>p:not(.mono){margin:0;max-width:72ch}
+.case-card__spec-wrap{width:100%;overflow-x:auto}
+.case-card__outcome{padding-top:1.5rem;border-top:1px solid var(--paper-10);display:grid;gap:.55rem}
+@media(max-width:991px){.case-card__story{gap:1.5rem}.case-card__media{margin-top:1.25rem}.spec-table{min-width:560px}}
