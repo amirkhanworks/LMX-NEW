@@ -7,6 +7,11 @@ const pages = {
   about: BASE + "about.html",
   engineering: BASE + "services.html"
 };
+const viewports = [
+  {width:1440,height:900},
+  {width:1024,height:768},
+  {width:390,height:844}
+];
 const required = {
   home: [
     "The home you already have",
@@ -38,77 +43,178 @@ await fs.mkdir("qa/live",{recursive:true});
 const browser = await chromium.launch({headless:true});
 const results = {generatedAt:new Date().toISOString(), pages:{}, overall:"PASS"};
 
-function boxData(e){
-  if(!e) return null;
-  const b=e.getBoundingClientRect();
-  const cs=getComputedStyle(e);
-  return {x:b.x,y:b.y,width:b.width,height:b.height,right:b.right,bottom:b.bottom,fontSize:cs.fontSize,lineHeight:cs.lineHeight};
-}
-
 for (const [name,url] of Object.entries(pages)) {
   results.pages[name] = {};
-  for (const viewport of [{width:1440,height:900},{width:390,height:844}]) {
+  for (const viewport of viewports) {
     const context = await browser.newContext({viewport,deviceScaleFactor:1});
-    await context.addInitScript(() => {
-      Object.defineProperty(window,"matchMedia",{configurable:true,value:((orig) => (q) => {
-        const m=orig.call(window,q);
-        if(q.includes("prefers-reduced-motion")) Object.defineProperty(m,"matches",{value:true,configurable:true});
-        return m;
-      })(window.matchMedia)});
-    });
-    const page=await context.newPage();
-    const consoleErrors=[];
+    const page = await context.newPage();
+    const consoleErrors = [];
+    const pageErrors = [];
     page.on("console",m=>{if(m.type()==="error") consoleErrors.push(m.text())});
-    const response=await page.goto(url,{waitUntil:"networkidle",timeout:60000});
-    await page.waitForTimeout(1000);
-    const data=await page.evaluate(({name,required,techExpected,prohibitedInTech})=>{
-      const normalize=s => (s || "").replace(/\\s+/g," ").trim();
-      const boxData=e=>{if(!e)return null;const b=e.getBoundingClientRect();const cs=getComputedStyle(e);return {x:b.x,y:b.y,width:b.width,height:b.height,right:b.right,bottom:b.bottom,fontSize:cs.fontSize,lineHeight:cs.lineHeight}};
-      const body=document.body, doc=document.documentElement;
-      const txt=body ? body.innerText : "";
-      const clean=normalize(txt);
-      const req=(required[name]||[]).map(t=>({text:t,found:txt.includes(t)||clean.includes(normalize(t))}));
-      const viewport=doc.clientWidth;
-      const scrollWidth=Math.max(doc.scrollWidth, body ? body.scrollWidth : 0);
-      const d={status:0,href:location.href,title:document.title,viewport,scrollWidth,horizontalOverflow:scrollWidth>viewport+1,required:req,boxes:{},consoleErrors:[]};
+    page.on("pageerror",e=>pageErrors.push(String(e)));
+    let response = null;
+    let navigationError = null;
+    try {
+      response = await page.goto(url,{waitUntil:"networkidle",timeout:60000});
+      await page.waitForTimeout(1200);
+    } catch (e) {
+      navigationError = String(e);
+    }
+
+    const data = await page.evaluate(({name,required,techExpected,prohibitedInTech,viewport}) => {
+      const normalize = s => (s || "").replace(/\s+/g," ").trim();
+      const box = el => {
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        const cs = getComputedStyle(el);
+        return {
+          x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom,
+          scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,
+          fontSize:cs.fontSize,lineHeight:cs.lineHeight,display:cs.display
+        };
+      };
+      const visibleText = document.body?.textContent || "";
+      const requiredChecks = (required[name] || []).map(t => ({
+        text:t, found:visibleText.includes(t) || normalize(visibleText).includes(normalize(t))
+      }));
+      const doc=document.documentElement, body=document.body;
+      const scrollWidth=Math.max(doc?.scrollWidth||0,body?.scrollWidth||0);
+      const out={
+        href:location.href,
+        title:document.title,
+        status:0,
+        viewport,
+        scrollWidth,
+        horizontalOverflow:scrollWidth>viewport.width+1,
+        requiredChecks,
+        consoleErrors:[],
+        pageErrors:[],
+        geometryClips:[]
+      };
+
       if(name==="home"){
-        for(const id of ["hero-title","rooms-title","zoom-title","keychain-title","safe-title","renter-title","proof-title","testimonials-title","bridge-title","cta-title"]) d.boxes[id]=boxData(document.getElementById(id));
+        const ids=["hero-title","rooms-title","zoom-title","keychain-title","safe-title","renter-title","proof-title","testimonials-title","bridge-title","cta-title"];
+        for(const id of ids){
+          const el=document.getElementById(id);
+          out[id]=box(el);
+          if(el){
+            const lines=[...el.querySelectorAll(".display__line")];
+            const targets=lines.length?lines:[el];
+            for(const t of targets){
+              const r=t.getBoundingClientRect();
+              if(r.right>viewport.width+1 || r.left<-1) out.geometryClips.push({selector:"#"+id,right:r.right,left:r.left});
+            }
+          }
+        }
+        const fs=id=>{
+          const el=document.getElementById(id);
+          if(!el)return null;
+          const line=el.querySelector(".display__line");
+          return parseFloat(getComputedStyle(line||el).fontSize);
+        };
+        out.hierarchy={hero:fs("hero-title"),rooms:fs("rooms-title"),bridge:fs("bridge-title"),zoom:fs("zoom-title"),keychain:fs("keychain-title"),safe:fs("safe-title"),renter:fs("renter-title"),proof:fs("proof-title"),testimonials:fs("testimonials-title"),cta:fs("cta-title")};
+        const order=["hero-title","bridge-title","spread-title","how-title","rooms-title","zoom-title","keychain-title","safe-title","renter-title","proof-title","testimonials-title","cta-title"];
+        out.flowY=order.map(id=>{const el=document.getElementById(id)||document.querySelector("."+id);return [id,el?el.getBoundingClientRect().top:null]}).filter(x=>x[1]!==null);
       }
+
       if(name==="about"){
-        d.oldVision=txt.includes("To empower people with complete control over their homes through smart and reliable technology.");
-        d.oldMission=txt.includes("To make smart home automation affordable, easy to use, and accessible to everyone.");
-        d.visionBox=boxData(document.querySelector(".vision-item:first-child > p:last-child"));
-        d.missionBox=boxData(document.querySelector(".vision-item:last-child > p:last-child"));
-        d.visionSection=boxData(document.querySelector(".vision"));
+        out.oldVision=visibleText.includes("To empower people with complete control over their homes through smart and reliable technology.");
+        out.oldMission=visibleText.includes("To make smart home automation affordable, easy to use, and accessible to everyone.");
+        out.visionBox=box(document.querySelector(".vision-item:first-child > p:last-child"));
+        out.missionBox=box(document.querySelector(".vision-item:last-child > p:last-child"));
       }
+
       if(name==="engineering"){
-        const groups=[...document.querySelectorAll(".tech-group")];
-        d.techGroups=groups.map(g=>({items:[...g.querySelectorAll("li")].map(x=>normalize(x.innerText)),box:boxData(g),labelBox:boxData(g.querySelector("p.mono"))}));
-        d.techItems=[...document.querySelectorAll(".tech-group__items li")].map(x=>normalize(x.innerText));
         const tech=document.querySelector(".tech");
-        d.techText=tech ? tech.innerText : "";
-        d.prohibitedInTech=prohibitedInTech.filter(x=>d.techText.includes(x));
-        const styles=groups.map(g=>({before:{content:getComputedStyle(g,"::before").content,width:getComputedStyle(g,"::before").width,height:getComputedStyle(g,"::before").height,display:getComputedStyle(g,"::before").display,background:getComputedStyle(g,"::before").backgroundColor},after:{content:getComputedStyle(g,"::after").content,width:getComputedStyle(g,"::after").width,height:getComputedStyle(g,"::after").height,display:getComputedStyle(g,"::after").display,background:getComputedStyle(g,"::after").backgroundColor}}));
-        d.groupPseudo=styles;
-        d.outerBorder=getComputedStyle(document.querySelector(".tech-groups")).borderTopStyle !== "none" || getComputedStyle(document.querySelector(".tech-groups")).borderLeftStyle !== "none" || getComputedStyle(document.querySelector(".tech-groups")).borderRightStyle !== "none" || getComputedStyle(document.querySelector(".tech-groups")).borderBottomStyle !== "none";
-        d.techExpectedMatch=JSON.stringify(d.techItems)===JSON.stringify(techExpected);
+        const groups=[...document.querySelectorAll(".tech-group")];
+        out.techItems=[...document.querySelectorAll(".tech-group__items li")].map(x=>normalize(x.textContent));
+        out.techGroups=groups.map(g=>({items:[...g.querySelectorAll("li")].map(x=>normalize(x.textContent)),box:box(g),labelBox:box(g.querySelector(".mono"))}));
+        out.prohibitedInTech=prohibitedInTech.filter(x=>(tech?.textContent||"").includes(x));
+        out.techExpectedMatch=JSON.stringify(out.techItems)===JSON.stringify(techExpected);
+        const wrapper=document.querySelector(".tech-groups");
+        const ws=wrapper?getComputedStyle(wrapper):null;
+        out.techGrid={gridTemplateColumns:ws?.gridTemplateColumns||"",outerBorder:ws?(
+          ws.borderTopStyle!=="none"||ws.borderRightStyle!=="none"||ws.borderBottomStyle!=="none"||ws.borderLeftStyle!=="none"):false};
+        out.pseudo=groups.map(g=>({
+          before:getComputedStyle(g,"::before").display+":"+getComputedStyle(g,"::before").width+":"+getComputedStyle(g,"::before").backgroundColor,
+          after:getComputedStyle(g,"::after").display+":"+getComputedStyle(g,"::after").width+":"+getComputedStyle(g,"::after").backgroundColor
+        }));
       }
-      return d;
-    },{name,required,techExpected,prohibitedInTech});
-    data.status=response ? response.status() : 0;
+
+      return out;
+    },{name,required,techExpected,prohibitedInTech,viewport});
+
+    data.status=response?.status()||0;
     data.consoleErrors=consoleErrors;
-    results.pages[name][String(viewport.width)+"x"+String(viewport.height)]=data;
-    await page.screenshot({path:"qa/live/"+name+"-"+viewport.width+"x"+viewport.height+".png",fullPage:true});
+    data.pageErrors=pageErrors;
+    data.navigationError=navigationError;
+    results.pages[name][viewport.width+"x"+viewport.height]=data;
+
+    await page.screenshot({
+      path:"qa/live/"+name+"-"+viewport.width+"x"+viewport.height+".png",
+      fullPage:true
+    });
     await context.close();
   }
 }
 await browser.close();
 
-for(const viewports of Object.values(results.pages)){
-  for(const d of Object.values(viewports)){
-    if(d.status<200||d.status>=300||d.horizontalOverflow||d.consoleErrors.length||d.oldVision||d.oldMission||d.prohibitedInTech?.length||d.required.some(x=>!x.found)||d.techItems && !d.techExpectedMatch||d.techGroups && d.techGroups.length!==3) results.overall="FAIL";
+for(const [name,viewports] of Object.entries(results.pages)){
+  for(const [vp,d] of Object.entries(viewports)){
+    const missing=d.requiredChecks.filter(x=>!x.found);
+    const badStatus=d.status<200||d.status>=300;
+    let bad=false;
+    if(badStatus||d.horizontalOverflow||d.consoleErrors.length||d.pageErrors.length||missing.length||d.geometryClips.length||d.oldVision||d.oldMission||d.prohibitedInTech?.length) bad=true;
+
+    if(name==="home"){
+      const h=d.hierarchy||{};
+      if(vp.startsWith("1440x")){
+        if(!(h.hero>h.rooms && h.rooms>h.zoom && h.bridge>h.zoom && h.cta>h.zoom)) bad=true;
+      } else if(vp.startsWith("1024x")){
+        if(!(h.hero>=h.rooms && h.rooms>h.zoom)) bad=true;
+      } else if(vp.startsWith("390x")){
+        if(!(h.hero>=h.rooms && h.rooms>h.zoom && h.bridge>h.zoom)) bad=true;
+      }
+    }
+
+    if(name==="about"){
+      if(!d.visionBox||!d.missionBox||d.visionBox.right>Number(vp.split("x")[0])+1||d.missionBox.right>Number(vp.split("x")[0])+1) bad=true;
+    }
+
+    if(name==="engineering"){
+      if(d.techGroups?.length!==3||!d.techExpectedMatch||d.techGrid.outerBorder) bad=true;
+      const width=Number(vp.split("x")[0]);
+      if(width>=1200){
+        if(!d.techGroups.every(g=>Math.abs(g.labelBox.y-d.techGroups[0].labelBox.y)<1)) bad=true;
+        if(d.pseudo.filter(x=>x.before.startsWith("block")).length<2) bad=true;
+      } else if(width<560){
+        if(d.techGrid.gridTemplateColumns!=="350px") bad=true;
+        if(d.pseudo.some(x=>x.before.startsWith("block:")&&x.before.includes("1px"))) bad=true;
+      }
+    }
+    if(bad) results.overall="FAIL";
   }
 }
 await fs.writeFile("qa/live/results.json",JSON.stringify(results,null,2));
-console.log(JSON.stringify(results,null,2));
+console.log(JSON.stringify({
+  overall:results.overall,
+  pages:Object.fromEntries(Object.entries(results.pages).map(([name,vps])=>[
+    name,
+    Object.fromEntries(Object.entries(vps).map(([vp,d])=>[
+      vp,
+      {
+        status:d.status,
+        overflow:d.horizontalOverflow,
+        geometryClips:d.geometryClips,
+        missing:d.requiredChecks.filter(x=>!x.found).map(x=>x.text),
+        consoleErrors:d.consoleErrors.length,
+        pageErrors:d.pageErrors.length,
+        hierarchy:d.hierarchy,
+        techGrid:d.techGrid,
+        techItems:d.techItems,
+        techGroups:d.techGroups?.map(g=>g.items)
+      }
+    ]))
+  ]))
+},null,2));
 process.exitCode=results.overall==="PASS"?0:1;
