@@ -2,10 +2,11 @@ import { chromium } from "playwright";
 import fs from "node:fs/promises";
 
 const BASE = "https://amirkhanworks.github.io/LMX-NEW/";
+const QA_BUST = "?qa=" + Date.now();
 const pages = {
-  home: BASE,
-  about: BASE + "about.html",
-  engineering: BASE + "services.html"
+  home: BASE + QA_BUST,
+  about: BASE + "about.html" + QA_BUST,
+  engineering: BASE + "services.html" + QA_BUST
 };
 const viewports = [
   {width:1440,height:900},
@@ -48,6 +49,7 @@ for (const [name,url] of Object.entries(pages)) {
   for (const viewport of viewports) {
     const context = await browser.newContext({viewport,deviceScaleFactor:1});
     const page = await context.newPage();
+    await page.setExtraHTTPHeaders({"Cache-Control":"no-cache"});
     await page.emulateMedia({reducedMotion:"reduce"});
     const consoleErrors = [];
     const pageErrors = [];
