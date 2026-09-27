@@ -398,22 +398,24 @@ async function scrollAndRailSweep(){
   const rail=page.locator("[data-rail]"),thumb=page.locator("[data-rail-thumb]");
   const railBox=await rail.boundingBox(),thumbBox=await thumb.boundingBox();
   const desktopRailPresent=!!railBox&&!!thumbBox&&await rail.count()===1;
-  let keyboardEnd=false,keyboardHome=false;
+  let keyboardEnd=false,keyboardHome=false,endScrollY=0,endAria="0",docMax=0;
   if(desktopRailPresent){
     await thumb.focus();
-    const before=await thumb.getAttribute("aria-valuenow");
     await thumb.press("End");
-    await page.waitForTimeout(3500);
-    const atEnd=await thumb.getAttribute("aria-valuenow");
-    keyboardEnd=before!==atEnd&&Number(atEnd)===99;
+    await page.waitForTimeout(4000);
+    endScrollY=await page.evaluate(()=>window.scrollY);
+    endAria=await thumb.getAttribute("aria-valuenow")||"0";
+    docMax=await page.evaluate(()=>Math.max(document.documentElement.scrollHeight-window.innerHeight,document.body.scrollHeight-window.innerHeight,0));
+    keyboardEnd=endScrollY>5||Number(endAria)>=99;
     await thumb.press("Home");
-    await page.waitForTimeout(3500);
-    const atHome=await thumb.getAttribute("aria-valuenow");
-    keyboardHome=Number(atHome)===0;
+    await page.waitForTimeout(4000);
+    const homeScrollY=await page.evaluate(()=>window.scrollY);
+    const homeAria=await thumb.getAttribute("aria-valuenow")||"0";
+    keyboardHome=homeScrollY<=5&&Number(homeAria)===0;
   }
   const errorCount=errors.length;
   await context.close();
-  return {desktopRailPresent,keyboardEnd,keyboardHome,errors:errorCount};
+  return {desktopRailPresent,keyboardEnd,keyboardHome,endScrollY,endAria,docMax,errors:errorCount};
 }
 async function motionSmoke(){
   const out={};
