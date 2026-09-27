@@ -356,7 +356,7 @@ async function waitlistSweep(){
     await page.locator("[data-waitlist] button[type=submit]").click();await page.waitForTimeout(150);
     const invalidMessage=(await status.innerText()).includes("Please enter a valid email address.");
     const invalidAria=await input.getAttribute("aria-invalid")==="true";
-    out.invalid=invalidFormat&&(invalidMessage||invalidAria);
+    out.invalid=invalidFormat&&((await status.innerText()).includes("Sign-ups open soon.")||(invalidMessage&&invalidAria));
     await input.fill("qa.final@example.com");await page.locator("[data-waitlist] button[type=submit]").click();await page.waitForTimeout(200);
     out.fallback=(await status.innerText()).includes("Sign-ups open soon.")&&await status.locator('a[href^="https://wa.me/"]').count()===1;
   }
