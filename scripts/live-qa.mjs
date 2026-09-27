@@ -255,7 +255,10 @@ for(const [name,viewports] of Object.entries(results.pages)){
       const width=Number(vp.split("x")[0]);
       if(!d.privacy||!d.footer||!d.nav) bad=true;
       if(d.privacy.railPresent||d.privacy.counterPresent||d.privacy.preloaderPresent) bad=true;
-      if(d.privacy.titleTransform!=="none"||d.privacy.titleFontSize>72) bad=true;
+      if(d.privacy.titleTransform!=="none") bad=true;
+      if(width>=992 && d.privacy.titleFontSize>64) bad=true;
+      if(width<992 && d.privacy.titleFontSize>52) bad=true;
+      if(width<560 && d.privacy.titleFontSize>44) bad=true;
       if(!d.privacyReadableColumn||d.privacyUtilityPageHeightMatchesViewport) bad=true;
       if(d.privacyTitleTop===null || d.privacyTitleTop<64 || d.privacyTitleTop>260) bad=true;
       if(width<560 && d.privacy.proseBox && d.privacy.proseBox.width>width-24) bad=true;
