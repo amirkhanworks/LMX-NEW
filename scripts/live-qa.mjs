@@ -484,7 +484,7 @@ for(const [name,viewports] of Object.entries(results.pages)){
     const missing=d.requiredChecks.filter(x=>!x.found);
     const expected=name==="notFound"?d.status===404:(d.status>=200&&d.status<300);
     const unexpectedBadResponses=d.badResponses.filter(x=>!(name==="notFound"&&x.status===404&&x.url.startsWith(INVALID)));
-    const relevantConsoleErrors=name==="notFound"?d.consoleErrors.filter(message=>!(\/failed to load resource/i.test(message)&&\/404/i.test(message))):d.consoleErrors;
+    const relevantConsoleErrors=name==="notFound"?d.consoleErrors.filter(message=>!(/failed to load resource/i.test(message)&&/404/i.test(message))):d.consoleErrors;
     let bad=!expected||d.horizontalOverflow||relevantConsoleErrors.length||d.pageErrors.length||d.requestFailures.length||
       unexpectedBadResponses.length||missing.length||d.geometryClips.length||d.engineeringGeometryClips?.length||
       d.oldVision||d.oldMission||d.prohibitedInTech?.length||d.renderedCounterVisible||(width<560&&d.renderedRailVisible)||
