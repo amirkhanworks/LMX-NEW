@@ -131,8 +131,8 @@ for (const [name,url] of Object.entries(pages)) {
       if(name==="home"){
         out.roomTitles=[...document.querySelectorAll(".panel__title")].map(e=>normalize(e.innerText));
         out.controls=[...document.querySelectorAll(".ctrl h3")].map(e=>normalize(e.innerText));
-        out.acCaveatCount=(bodyRaw.match(/Tested during our beta; coming soon for all homes\\./g)||[]).length;
-        out.testimonial1Count=(bodyRaw.match(/The best part for us has been my grandparents\\./g)||[]).length;
+        out.acCaveatCount=(bodyRaw.match(/Tested during our beta; coming soon for all homes\./gi)||[]).length;
+        out.testimonial1Count=(bodyRaw.match(/The best part for us has been my grandparents\./gi)||[]).length;
         out.testimonial2Count=(bodyRaw.match(/I can turn my AC on before I even walk in the door/g)||[]).length;
         out.waitlistPresent=!!document.querySelector("[data-waitlist]");
         out.homeDemoCtas=[...document.querySelectorAll(".hero__actions .btn--paper,.cta__primary")].map(a=>({text:normalize(a.innerText),href:a.href,target:a.target}));
@@ -214,8 +214,8 @@ for (const [name,url] of Object.entries(pages)) {
         out.canineExactSelectorCount=document.querySelectorAll('button.case-card__trigger[aria-controls="canine-panel"]').length;
         out.caninePanelCount=document.querySelectorAll("#canine-panel").length;
         out.caninePublicText=visibleText.includes("In progress.")&&visibleText.includes("US client")&&visibleText.includes("Selected scope and technical details are available on request.");
-        out.caseDeliveredCount=[...document.querySelectorAll(".case-card__trigger")].filter(e=>normalize(e.innerText).includes("Delivered")).length;
-        out.caseInProgressCount=[...document.querySelectorAll(".case-card__trigger")].filter(e=>normalize(e.innerText).includes("In progress")).length;
+        out.caseDeliveredCount=[...document.querySelectorAll(".case-card__trigger")].filter(e=>normalize(e.innerText).toLowerCase().includes("delivered")).length;
+        out.caseInProgressCount=[...document.querySelectorAll(".case-card__trigger")].filter(e=>normalize(e.innerText).toLowerCase().includes("in progress")).length;
         out.b2bCtas=[...document.querySelectorAll(".engage-card a.btn,.engage .cta a.btn,.nav .btn--nav")].map(a=>({text:normalize(a.innerText),href:a.href}));
         const tech=document.querySelector(".tech");
         const groups=[...document.querySelectorAll(".tech-group")];
@@ -504,7 +504,7 @@ for(const [name,viewports] of Object.entries(results.pages)){
       if(!d.aboutCtas?.some(x=>x.text==="Talk to Luminox"&&x.href.startsWith("mailto:")))bad=true;
     }
     if(name==="engineering"){
-      if(d.capabilities?.length!==6||d.process?.join("|")!=="Discover|Architect|Build|Test & deploy|Hand over")bad=true;
+      if(d.capabilities?.length!==6||d.process?.map(v=>v.toLowerCase()).join("|")!=="discover|architect|build|test & deploy|hand over")bad=true;
       if(d.techGroups?.length!==3||!d.techExpectedMatch||d.techGrid.outerBorder)bad=true;
       if(d.caseCards?.length!==3||d.canineExactSelectorCount!==1||d.caninePanelCount!==1||!d.caninePublicText)bad=true;
       if(d.caseDeliveredCount!==2||d.caseInProgressCount!==1)bad=true;
