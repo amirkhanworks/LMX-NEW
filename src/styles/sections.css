@@ -145,3 +145,7 @@
 .zoom__under .display{font-size:123px}
 #safe-title{font-size:125px}
 #renter-title{font-size:80px}
+
+/* Keep Smart heading to exactly three visual lines */
+#how-title{white-space:nowrap;max-width:none}
+#how-title br{display:block}
