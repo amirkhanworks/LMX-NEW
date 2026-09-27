@@ -4,7 +4,7 @@ import fs from "node:fs/promises";
 const BASE = "https://amirkhanworks.github.io/LMX-NEW/";
 const QA_BUST = "?qa=" + Date.now();
 const pages = {
-  home: BASE + QA_BUST,
+  home: BASE + "index.html" + QA_BUST,
   about: BASE + "about.html" + QA_BUST,
   engineering: BASE + "services.html" + QA_BUST
 };
@@ -87,6 +87,8 @@ for (const [name,url] of Object.entries(pages)) {
       const out={
         href:location.href,
         title:document.title,
+        qaMarker:document.body?.getAttribute("data-qa-marker")||null,
+        stylesheetHrefs:[...document.querySelectorAll('link[rel="stylesheet"]')].map(x=>x.href),
         status:0,
         viewport,
         scrollWidth,
