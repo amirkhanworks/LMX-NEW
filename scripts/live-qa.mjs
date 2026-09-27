@@ -409,13 +409,15 @@ async function scrollAndRailSweep(){
     await page.waitForTimeout(1200);
     railHome=await page.evaluate(()=>window.scrollY)<=5;
   }
+  const desktopRailPresent=await rail.count()===1&&await rail.isVisible().catch(()=>false);
+  const errorCount=errors.length;
   await context.close();
   return {
     initial,
     dragMoved,
-    desktopRailPresent:await rail.count()===1&&await rail.isVisible().catch(()=>false),
+    desktopRailPresent,
     railHome,
-    errors:errors.length
+    errors:errorCount
   };
 }
 async function motionSmoke(){
