@@ -6,7 +6,8 @@ const QA_BUST = "?qa=" + Date.now();
 const pages = {
   home: BASE + "index.html" + QA_BUST,
   about: BASE + "about.html" + QA_BUST,
-  engineering: BASE + "services.html" + QA_BUST
+  engineering: BASE + "services.html" + QA_BUST,
+  privacy: BASE + "privacy.html" + QA_BUST
 };
 const viewports = [
   {width:1440,height:900},
@@ -35,6 +36,18 @@ const required = {
     "Hardware & Firmware","ESP32","KiCad","Embedded firmware",
     "Connectivity","MQTT","LoRa","Cellular LTE",
     "Systems & Data","Cloud telemetry","Sensor networks"
+  ],
+  privacy: [
+    "Privacy",
+    "Last updated: 26 September 2026",
+    "Who we are.",
+    "What we collect.",
+    "Why we collect it.",
+    "Who processes it for us.",
+    "How long we keep it.",
+    "Your rights.",
+    "Grievances.",
+    "Changes."
   ]
 };
 const techExpected = ["ESP32","KiCad","Embedded firmware","MQTT","LoRa","Cellular LTE","Cloud telemetry","Sensor networks"];
@@ -132,6 +145,38 @@ for (const [name,url] of Object.entries(pages)) {
         out.missionBox=box(document.querySelector(".vision-item:last-child > p:last-child"));
       }
 
+
+      if(name==="privacy"){
+        const utility=document.querySelector(".about-hero");
+        const title=document.querySelector("h1.display");
+        const prose=document.querySelector(".prose");
+        const footer=document.querySelector(".footer");
+        const nav=document.querySelector(".nav");
+        const rail=document.querySelector("[data-rail]");
+        const counter=document.querySelector("[data-scroll-counter]");
+        const preloader=document.querySelector("[data-preloader]");
+        const utilityBox=box(utility);
+        const titleBox=box(title);
+        const proseBox=box(prose);
+        out.privacy={
+          utilityBox,titleBox,proseBox,
+          footer:!!footer,
+          nav:!!nav,
+          railPresent:!!rail,
+          counterPresent:!!counter,
+          preloaderPresent:!!preloader,
+          titleTransform:title?getComputedStyle(title).textTransform:null,
+          titleFontSize:title?parseFloat(getComputedStyle(title).fontSize):null,
+          utilityHeight:utility?utilityBox?.height:null,
+          contentHeight:proseBox?.height||0,
+          policyBodyScrollHeight:Math.max(document.documentElement.scrollHeight,document.body?.scrollHeight||0)
+        };
+        out.privacyBadMotionClass=document.documentElement.classList.contains("reduce-motion");
+        out.privacyUtilityPageHeightMatchesViewport=utilityBox?Math.abs(utilityBox.height-viewport.height)<2:false;
+        out.privacyReadableColumn=proseBox?proseBox.width<=viewport.width-32:false;
+        out.privacyTitleTop=titleBox?.y??null;
+        out.privacyFooterTop=footer?footer.getBoundingClientRect().top:null;
+      }
       if(name==="engineering"){
         const tech=document.querySelector(".tech");
         const groups=[...document.querySelectorAll(".tech-group")];
@@ -205,6 +250,15 @@ for(const [name,viewports] of Object.entries(results.pages)){
         if(d.techGrid.gridTemplateColumns!=="350px") bad=true;
         if(d.pseudo.some(x=>x.before.startsWith("block:")&&x.before.includes("1px"))) bad=true;
       }
+    }
+    if(name==="privacy"){
+      const width=Number(vp.split("x")[0]);
+      if(!d.privacy||!d.footer||!d.nav) bad=true;
+      if(d.privacy.railPresent||d.privacy.counterPresent||d.privacy.preloaderPresent) bad=true;
+      if(d.privacy.titleTransform!=="none"||d.privacy.titleFontSize>72) bad=true;
+      if(!d.privacyReadableColumn||d.privacyUtilityPageHeightMatchesViewport) bad=true;
+      if(d.privacyTitleTop===null || d.privacyTitleTop<64 || d.privacyTitleTop>260) bad=true;
+      if(width<560 && d.privacy.proseBox && d.privacy.proseBox.width>width-24) bad=true;
     }
     if(bad) results.overall="FAIL";
   }
