@@ -32,8 +32,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Generate images
-        run: npm run images
+      - name: Generate images when source assets changed
+        run: |
+          if git diff --quiet HEAD^ HEAD -- assets-src/img/; then
+            echo "No image-source changes in this commit; using committed generated assets."
+          else
+            npm run images
+          fi
 
       - name: Build website
         run: npm run build
