@@ -128,3 +128,8 @@
 .bridge__intro{min-width:0;overflow:hidden}
 .bridge__intro .display{font-size:clamp(4rem,7vw,7rem);min-width:0;max-width:100%}
 .bridge__intro .display__line{width:auto;max-width:100%}
+
+
+/* Display heading fit: targeted text alignment only */
+#zoom-title{font-size:clamp(3.5rem,7vw,8rem);white-space:nowrap}
+#proof-title,#testimonials-title{font-size:clamp(3.5rem,7vw,8rem)}
