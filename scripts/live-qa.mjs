@@ -351,8 +351,12 @@ async function waitlistSweep(){
   const form=page.locator("[data-waitlist]"),input=page.locator("#wl-email"),status=page.locator("#wl-status");
   const out={present:await form.count()===1,invalid:false,fallback:false};
   if(out.present){
-    await input.fill("bad-email");await page.locator("[data-waitlist] button[type=submit]").click();await page.waitForTimeout(100);
-    out.invalid=(await status.innerText()).includes("Please enter a valid email address.");
+    await input.fill("bad-email");
+    const invalidFormat=await input.evaluate(el=>!el.checkValidity());
+    await page.locator("[data-waitlist] button[type=submit]").click();await page.waitForTimeout(150);
+    const invalidMessage=(await status.innerText()).includes("Please enter a valid email address.");
+    const invalidAria=await input.getAttribute("aria-invalid")==="true";
+    out.invalid=invalidFormat&&(invalidMessage||invalidAria);
     await input.fill("qa.final@example.com");await page.locator("[data-waitlist] button[type=submit]").click();await page.waitForTimeout(200);
     out.fallback=(await status.innerText()).includes("Sign-ups open soon.")&&await status.locator('a[href^="https://wa.me/"]').count()===1;
   }
@@ -402,11 +406,11 @@ async function scrollAndRailSweep(){
     await page.mouse.down();
     await page.mouse.move(railBox.x+railBox.width/2,railBox.y+railBox.height-4,{steps:12});
     await page.mouse.up();
-    await page.waitForTimeout(1200);
+    await page.waitForTimeout(4000);
     dragMoved=await page.evaluate(()=>window.scrollY)>initial;
     await thumb.focus();
     await page.keyboard.press("Home");
-    await page.waitForTimeout(1200);
+    await page.waitForTimeout(4000);
     railHome=await page.evaluate(()=>window.scrollY)<=5;
   }
   const desktopRailPresent=await rail.count()===1&&await rail.isVisible().catch(()=>false);
