@@ -261,7 +261,7 @@ for(const [name,viewports] of Object.entries(results.pages)){
     }
     if(name==="privacy"){
       const width=Number(vp.split("x")[0]);
-      if(!d.privacy||!d.footer||!d.nav) bad=true;
+      if(!d.privacy||!d.privacy.footer||!d.privacy.nav) bad=true;
       if(d.privacy.railPresent||d.privacy.counterPresent||d.privacy.preloaderPresent) bad=true;
       if(d.privacy.titleTransform!=="none") bad=true;
       if(width>=992 && d.privacy.titleFontSize>64) bad=true;
