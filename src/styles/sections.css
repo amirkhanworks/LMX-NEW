@@ -137,3 +137,11 @@
 /* Keep beta tester heading on one line */
 #testimonials-title{font-size:clamp(2.75rem,5.5vw,6.25rem);white-space:nowrap;text-wrap:nowrap}
 #cta-title .display__line{display:block;white-space:nowrap}
+
+/* Requested display type sizes */
+#spread-title{font-size:167px}
+#how-title{font-size:167px}
+#rooms-title{font-size:156px}
+.zoom__under .display{font-size:123px}
+#safe-title{font-size:125px}
+#renter-title{font-size:55px}
