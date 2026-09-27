@@ -63,6 +63,7 @@ for (const [name,url] of Object.entries(pages)) {
     await page.waitForTimeout(1000);
     const data=await page.evaluate(({name,required,techExpected,prohibitedInTech})=>{
       const normalize=s => (s || "").replace(/\\s+/g," ").trim();
+      const boxData=e=>{if(!e)return null;const b=e.getBoundingClientRect();const cs=getComputedStyle(e);return {x:b.x,y:b.y,width:b.width,height:b.height,right:b.right,bottom:b.bottom,fontSize:cs.fontSize,lineHeight:cs.lineHeight}};
       const body=document.body, doc=document.documentElement;
       const txt=body ? body.innerText : "";
       const clean=normalize(txt);
