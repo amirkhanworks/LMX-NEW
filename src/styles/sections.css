@@ -258,8 +258,10 @@
 .hero__content{max-width:min(1230px,calc(100vw - (2 * var(--gutter))))}
 #rooms-title{font-size:clamp(5.75rem,8.75vw,8rem)}
 @media(max-width:991px){
-  #hero-title .display__line{font-size:clamp(2.25rem,9vw,3.75rem)}
+  .hero #hero-title .display__line{font-size:clamp(2.25rem,9vw,3.75rem)}
+  #rooms-title{font-size:clamp(3.5rem,11vw,6.5rem)}
 }
 @media(max-width:560px){
-  #hero-title .display__line{font-size:clamp(2.25rem,9vw,3rem)}
+  .hero #hero-title .display__line{font-size:clamp(2.25rem,9vw,3rem)}
+  #rooms-title{font-size:clamp(3rem,11vw,3.5rem)}
 }
