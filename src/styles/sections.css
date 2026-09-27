@@ -133,3 +133,6 @@
 /* Display heading fit: targeted text alignment only */
 #zoom-title{font-size:clamp(3.5rem,7vw,8rem);white-space:nowrap}
 #proof-title,#testimonials-title{font-size:clamp(3.5rem,7vw,8rem)}
+
+/* Keep beta tester heading on one line */
+#testimonials-title{font-size:clamp(2.75rem,5.5vw,6.25rem);white-space:nowrap;text-wrap:nowrap}
