@@ -99,7 +99,7 @@
 .close{height:auto!important;background:var(--navy)}
 .close__screen{position:relative!important;top:auto!important;height:auto!important;min-height:0!important;isolation:auto}
 
-.cta .display{font-size:clamp(4rem,9vw,9rem);max-width:14ch;margin-inline:auto}
+.cta > div{width:min(1180px,calc(100vw - (2 * var(--gutter))));margin-inline:auto;min-width:0}.cta .display{font-size:clamp(3.25rem,5.6vw,6.5rem);max-width:1180px;margin-inline:auto;text-align:center}.cta .display__line{width:auto;max-width:100%;white-space:nowrap}
 @media(max-width:991px){
   .safe__screen{grid-template-columns:1fr;display:grid;padding:14vh var(--gutter)}
   .safe__copy{grid-column:1;grid-row:1}
