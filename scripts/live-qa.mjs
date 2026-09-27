@@ -247,6 +247,11 @@ for (const [name,url] of Object.entries(pages)) {
     data.pageErrors=pageErrors;
     data.badResponses=badResponses;
     data.requestFailures=requestFailures;
+    data.renderedCounterVisible=await page.locator(".counter:visible,[data-scroll-counter]:visible").count().catch(()=>0)>0;
+    data.renderedRailVisible=await page.locator("[data-rail]:visible").count().catch(()=>0)>0;
+    data.preloaderText=await page.locator("[data-preloader]").textContent().catch(()=> "")||"";
+    data.preloaderOutlines=await page.locator("[data-preloader] .preloader__outline").count().catch(()=>0);
+    data.imageBrokenCount=await page.locator("img").evaluateAll(imgs=>imgs.filter(img=>img.complete&&img.naturalWidth===0).length).catch(()=>0);
     data.navigationError=navigationError;
     results.pages[name][viewport.width+"x"+viewport.height]=data;
 
