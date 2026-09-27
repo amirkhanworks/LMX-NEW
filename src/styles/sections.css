@@ -136,3 +136,4 @@
 
 /* Keep beta tester heading on one line */
 #testimonials-title{font-size:clamp(2.75rem,5.5vw,6.25rem);white-space:nowrap;text-wrap:nowrap}
+#cta-title .display__line{display:block;white-space:nowrap}
