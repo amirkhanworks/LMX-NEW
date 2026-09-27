@@ -520,8 +520,7 @@ for(const [name,viewports] of Object.entries(results.pages)){
       if(width<992&&pr.titleFontSize>52)bad=true;
       if(width<560&&pr.titleFontSize>44)bad=true;
       if(!d.privacyReadableColumn||d.privacyUtilityPageHeightMatchesViewport)bad=true;
-      if(pr.footer&&pr.footerCurrent!==null&&pr.footerCurrent!="./privacy.html")bad=true;
-      if(!pr.footer&&d.privacyFooterCurrent!="./privacy.html")bad=true;
+      if(d.privacyFooterCurrent!=="./privacy.html")bad=true;
     }
     if(name==="notFound"&&(!d.notFound?.wrongRoom||!d.notFound?.backHome))bad=true;
     if(bad)results.overall="FAIL";
