@@ -29,6 +29,9 @@ jobs:
       - name: Install Playwright package
         run: npm install --no-save playwright@1.55.0
 
+      - name: Allow Pages propagation
+        run: sleep 30
+
       - name: Run live production QA
         run: |
           mkdir -p qa/live
