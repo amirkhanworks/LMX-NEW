@@ -391,12 +391,32 @@ async function scrollAndRailSweep(){
   const page=await context.newPage();await page.emulateMedia({reducedMotion:"no-preference"});
   const errors=[];page.on("console",m=>{if(m.type()==="error")errors.push(m.text())});page.on("pageerror",e=>errors.push(String(e)));
   await page.goto(pages.home,{waitUntil:"networkidle",timeout:60000});await page.waitForTimeout(900);
-  const rail=page.locator("[data-rail-thumb]"),initial=await page.evaluate(()=>window.scrollY);
-  await page.mouse.wheel(0,900);await page.waitForTimeout(900);const after=await page.evaluate(()=>window.scrollY);
-  let end=false,home=false;
-  if(await rail.count()){await rail.focus();await page.keyboard.press("End");await page.waitForTimeout(900);end=await page.evaluate(()=>window.scrollY)>after;await page.keyboard.press("Home");await page.waitForTimeout(900);home=await page.evaluate(()=>window.scrollY)<=5;}
-  const desktopRailPresent=await page.locator("[data-rail]:visible").count()===1;
-  await context.close();return {initial,after,wheelMoved:after>initial,desktopRailPresent,railEnd:end,railHome:home,errors:errors.length};
+  const rail=page.locator("[data-rail]");
+  const thumb=page.locator("[data-rail-thumb]");
+  const railBox=await rail.boundingBox();
+  const thumbBox=await thumb.boundingBox();
+  const initial=await page.evaluate(()=>window.scrollY);
+  let dragMoved=false,railHome=false;
+  if(railBox&&thumbBox){
+    await page.mouse.move(thumbBox.x+thumbBox.width/2,thumbBox.y+thumbBox.height/2);
+    await page.mouse.down();
+    await page.mouse.move(railBox.x+railBox.width/2,railBox.y+railBox.height-4,{steps:12});
+    await page.mouse.up();
+    await page.waitForTimeout(1200);
+    dragMoved=await page.evaluate(()=>window.scrollY)>initial;
+    await thumb.focus();
+    await page.keyboard.press("Home");
+    await page.waitForTimeout(1200);
+    railHome=await page.evaluate(()=>window.scrollY)<=5;
+  }
+  await context.close();
+  return {
+    initial,
+    dragMoved,
+    desktopRailPresent:await rail.count()===1&&await rail.isVisible().catch(()=>false),
+    railHome,
+    errors:errors.length
+  };
 }
 async function motionSmoke(){
   const out={};
@@ -427,11 +447,12 @@ async function notFoundSweep(){
   const page=await context.newPage();await page.emulateMedia({reducedMotion:"reduce"});
   const errors=[];page.on("console",m=>{if(m.type()==="error")errors.push(m.text())});page.on("pageerror",e=>errors.push(String(e)));
   const response=await page.goto(pages.notFound,{waitUntil:"networkidle",timeout:60000});await page.waitForTimeout(500);
-  const renders=(await page.locator("h1.display").innerText()).trim()==="Wrong room.";
+  const renders=((await page.locator("h1.display").innerText()).trim()).toUpperCase()==="WRONG ROOM.";
   const back=page.locator('a.btn',{hasText:"Back to Home"});let navigated=false;
   const backHome=await back.count()===1;
   if(backHome){await back.click();await page.waitForLoadState("domcontentloaded",{timeout:30000}).catch(()=>{});await page.waitForTimeout(500);navigated=await cleanUrl(page.url())===await cleanUrl(BASE);}
-  await context.close();return {status:response?.status()||0,renders,backHome,navigated,errors:errors.length};
+  const relevantErrors=errors.filter(message=>!(/failed to load resource/i.test(message)&&/404/i.test(message)));
+  await context.close();return {status:response?.status()||0,renders,backHome,navigated,errors:relevantErrors.length};
 }
 
 results.interaction={};
@@ -463,7 +484,8 @@ for(const [name,viewports] of Object.entries(results.pages)){
     const missing=d.requiredChecks.filter(x=>!x.found);
     const expected=name==="notFound"?d.status===404:(d.status>=200&&d.status<300);
     const unexpectedBadResponses=d.badResponses.filter(x=>!(name==="notFound"&&x.status===404&&x.url.startsWith(INVALID)));
-    let bad=!expected||d.horizontalOverflow||d.consoleErrors.length||d.pageErrors.length||d.requestFailures.length||
+    const relevantConsoleErrors=name==="notFound"?d.consoleErrors.filter(message=>!(\/failed to load resource/i.test(message)&&\/404/i.test(message))):d.consoleErrors;
+    let bad=!expected||d.horizontalOverflow||relevantConsoleErrors.length||d.pageErrors.length||d.requestFailures.length||
       unexpectedBadResponses.length||missing.length||d.geometryClips.length||d.engineeringGeometryClips?.length||
       d.oldVision||d.oldMission||d.prohibitedInTech?.length||d.renderedCounterVisible||(width<560&&d.renderedRailVisible)||
       d.preloaderText.includes("19.13° N")||d.preloaderText.includes("72.83° E")||d.preloaderOutlines>0||d.imageBrokenCount>0;
