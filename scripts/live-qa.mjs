@@ -394,7 +394,9 @@ async function scrollAndRailSweep(){
   await context.addInitScript(()=>sessionStorage.setItem("lmxVisited","1"));
   const page=await context.newPage();await page.emulateMedia({reducedMotion:"no-preference"});
   const errors=[];page.on("console",m=>{if(m.type()==="error")errors.push(m.text())});page.on("pageerror",e=>errors.push(String(e)));
-  await page.goto(pages.home,{waitUntil:"networkidle",timeout:60000});await page.waitForTimeout(900);
+  await page.goto(pages.home,{waitUntil:"networkidle",timeout:60000});
+  await page.waitForFunction(()=>document.querySelector("[data-preloader]")?.style.display==="none"||getComputedStyle(document.querySelector("[data-preloader]")).visibility==="hidden",{timeout:10000}).catch(()=>{});
+  await page.waitForTimeout(700);
   const rail=page.locator("[data-rail]"),thumb=page.locator("[data-rail-thumb]");
   const railBox=await rail.boundingBox(),thumbBox=await thumb.boundingBox();
   const desktopRailPresent=!!railBox&&!!thumbBox&&await rail.count()===1;
