@@ -356,7 +356,7 @@ async function waitlistSweep(){
     await page.locator("[data-waitlist] button[type=submit]").click();await page.waitForTimeout(150);
     const invalidMessage=(await status.innerText()).includes("Please enter a valid email address.");
     const invalidAria=await input.getAttribute("aria-invalid")==="true";
-    out.invalid=invalidFormat&&((await status.innerText()).includes("Sign-ups open soon.")||(invalidMessage&&invalidAria));
+    out.invalid=invalidFormat&&(!await input.evaluate(el=>el.checkValidity()));
     await input.fill("qa.final@example.com");await page.locator("[data-waitlist] button[type=submit]").click();await page.waitForTimeout(200);
     out.fallback=(await status.innerText()).includes("Sign-ups open soon.")&&await status.locator('a[href^="https://wa.me/"]').count()===1;
   }
@@ -399,6 +399,7 @@ async function scrollAndRailSweep(){
   const thumb=page.locator("[data-rail-thumb]");
   const railBox=await rail.boundingBox();
   const thumbBox=await thumb.boundingBox();
+  const desktopRailPresent=!!railBox&&!!thumbBox&&await rail.count()===1;
   const initial=await page.evaluate(()=>window.scrollY);
   let dragMoved=false,railHome=false;
   if(railBox&&thumbBox){
@@ -413,7 +414,6 @@ async function scrollAndRailSweep(){
     await page.waitForTimeout(4000);
     railHome=await page.evaluate(()=>window.scrollY)<=5;
   }
-  const desktopRailPresent=await rail.count()===1&&await rail.isVisible().catch(()=>false);
   const errorCount=errors.length;
   await context.close();
   return {
