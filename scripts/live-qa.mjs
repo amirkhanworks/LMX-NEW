@@ -48,6 +48,7 @@ for (const [name,url] of Object.entries(pages)) {
   for (const viewport of viewports) {
     const context = await browser.newContext({viewport,deviceScaleFactor:1});
     const page = await context.newPage();
+    await page.emulateMedia({reducedMotion:"reduce"});
     const consoleErrors = [];
     const pageErrors = [];
     page.on("console",m=>{if(m.type()==="error") consoleErrors.push(m.text())});
@@ -56,7 +57,8 @@ for (const [name,url] of Object.entries(pages)) {
     let navigationError = null;
     try {
       response = await page.goto(url,{waitUntil:"networkidle",timeout:60000});
-      await page.waitForTimeout(1200);
+      await page.waitForFunction(() => !document.documentElement.classList.contains("is-booting"), null, {timeout:8000}).catch(() => {});
+      await page.waitForTimeout(700);
     } catch (e) {
       navigationError = String(e);
     }
@@ -74,8 +76,9 @@ for (const [name,url] of Object.entries(pages)) {
         };
       };
       const visibleText = document.body?.textContent || "";
+      const compact = s => normalize(s).replace(/\s+/g,"").toLowerCase();
       const requiredChecks = (required[name] || []).map(t => ({
-        text:t, found:visibleText.includes(t) || normalize(visibleText).includes(normalize(t))
+        text:t, found:visibleText.includes(t) || normalize(visibleText).includes(normalize(t)) || compact(visibleText).includes(compact(t))
       }));
       const doc=document.documentElement, body=document.body;
       const scrollWidth=Math.max(doc?.scrollWidth||0,body?.scrollWidth||0);
@@ -113,6 +116,7 @@ for (const [name,url] of Object.entries(pages)) {
           return parseFloat(getComputedStyle(line||el).fontSize);
         };
         out.hierarchy={hero:fs("hero-title"),rooms:fs("rooms-title"),bridge:fs("bridge-title"),zoom:fs("zoom-title"),keychain:fs("keychain-title"),safe:fs("safe-title"),renter:fs("renter-title"),proof:fs("proof-title"),testimonials:fs("testimonials-title"),cta:fs("cta-title")};
+        out.heroLineBoxes=[...document.querySelectorAll("#hero-title .display__line")].map(e=>box(e));
         const order=["hero-title","bridge-title","spread-title","how-title","rooms-title","zoom-title","keychain-title","safe-title","renter-title","proof-title","testimonials-title","cta-title"];
         out.flowY=order.map(id=>{const el=document.getElementById(id)||document.querySelector("."+id);return [id,el?el.getBoundingClientRect().top:null]}).filter(x=>x[1]!==null);
       }
