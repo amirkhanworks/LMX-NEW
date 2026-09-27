@@ -203,6 +203,7 @@
   .spread{min-height:58svh}
   .how{padding-block:9vh;gap:2.5rem}
   #how-title{font-size:clamp(3rem,11vw,4.25rem);white-space:normal;max-width:100%}
+  #rooms-title{font-size:clamp(3.5rem,11vw,6.5rem);max-width:100%}
   .how__steps article{min-height:0;padding:1.75rem}
   #zoom-title{font-size:clamp(2.75rem,10.5vw,4rem);max-width:100%}
   .keychain{padding-block:9vh;gap:1.5rem}
