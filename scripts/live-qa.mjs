@@ -375,8 +375,10 @@ async function aboutCtaSweep(){
   await context.addInitScript(()=>sessionStorage.setItem("lmxVisited","1"));
   const page=await context.newPage();await page.emulateMedia({reducedMotion:"reduce"});await page.goto(pages.about,{waitUntil:"networkidle",timeout:60000});await page.waitForTimeout(400);
   const link=page.locator('main a.btn',{hasText:"Talk to Luminox"}).first();
-  const href=await link.getAttribute("href").catch(()=>null);
-  await context.close();return {present:await link.count()===1,correct:!!href&&href.startsWith("mailto:info@luminoxautomation.com")};
+  const present=await link.count()===1;
+  const href=present?await link.getAttribute("href").catch(()=>null):null;
+  const correct=present&&!!href&&href.startsWith("mailto:info@luminoxautomation.com");
+  await context.close();return {present,correct};
 }
 async function scrollAndRailSweep(){
   const context=await browser.newContext({viewport:{width:1440,height:900},deviceScaleFactor:1});
