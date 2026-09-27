@@ -213,7 +213,10 @@ for (const [name,url] of Object.entries(pages)) {
         out.caseCards=[...document.querySelectorAll(".case-card__trigger")].map(e=>({ariaControls:e.getAttribute("aria-controls"),expanded:e.getAttribute("aria-expanded"),text:normalize(e.innerText)}));
         out.canineExactSelectorCount=document.querySelectorAll('button.case-card__trigger[aria-controls="canine-panel"]').length;
         out.caninePanelCount=document.querySelectorAll("#canine-panel").length;
-        out.caninePublicText=visibleText.includes("In progress.")&&visibleText.includes("US client")&&visibleText.includes("Selected scope and technical details are available on request.");
+        const canineTrigger=document.querySelector('button.case-card__trigger[aria-controls="canine-panel"]');
+        const caninePanel=document.querySelector("#canine-panel");
+        const canineText=((canineTrigger?.textContent||"")+" "+(caninePanel?.textContent||"")).toLowerCase();
+        out.caninePublicText=canineText.includes("in progress")&&canineText.includes("us client")&&canineText.includes("selected scope and technical details available on request")&&((caninePanel?.textContent||"").toLowerCase().includes("technical details are available on request"));
         out.caseDeliveredCount=[...document.querySelectorAll(".case-card__trigger")].filter(e=>normalize(e.innerText).toLowerCase().includes("delivered")).length;
         out.caseInProgressCount=[...document.querySelectorAll(".case-card__trigger")].filter(e=>normalize(e.innerText).toLowerCase().includes("in progress")).length;
         out.b2bCtas=[...document.querySelectorAll(".engage-card a.btn,.engage .cta a.btn,.nav .btn--nav")].map(a=>({text:normalize(a.innerText),href:a.href}));
