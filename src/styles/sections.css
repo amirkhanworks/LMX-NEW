@@ -230,3 +230,26 @@
   #proof-title{font-size:clamp(2.75rem,10vw,3.5rem)}
   #testimonials-title{font-size:clamp(2.5rem,9.5vw,3.25rem)}
 }
+/* P2 engineering technology grouping */
+.tech-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:3rem}
+.tech-group{position:relative;min-width:0;padding:0 clamp(1rem,2.5vw,2.5rem)}
+.tech-group:first-child{padding-left:0}
+.tech-group:last-child{padding-right:0}
+.tech-group+.tech-group::before{content:"";position:absolute;left:0;top:2.15rem;bottom:0;width:1px;background:var(--ink-10)}
+.tech-group>p{margin:0 0 .75rem}
+.tech-group__items{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.tech-group__items li{font-size:clamp(1.125rem,1rem + .35vw,1.4rem);line-height:1.25}
+@media(max-width:991px){
+  .tech-groups{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+  .tech-group{padding:0 clamp(1rem,3vw,2rem) 2rem 0}
+  .tech-group:nth-child(2){padding-left:clamp(1rem,3vw,2rem);padding-right:0}
+  .tech-group:nth-child(3){grid-column:1/-1;padding:2rem 0 0;border-top:1px solid var(--ink-10)}
+  .tech-group+.tech-group::before{display:none}
+  .tech-group:nth-child(2)::after{content:"";position:absolute;left:0;top:2.15rem;bottom:2rem;width:1px;background:var(--ink-10)}
+}
+@media(max-width:560px){
+  .tech-groups{grid-template-columns:1fr;gap:0}
+  .tech-group,.tech-group:nth-child(2),.tech-group:nth-child(3){grid-column:auto;padding:0 0 2rem}
+  .tech-group+.tech-group{padding-top:2rem;border-top:1px solid var(--ink-10)}
+  .tech-group+.tech-group::before,.tech-group:nth-child(2)::after{display:none}
+}
