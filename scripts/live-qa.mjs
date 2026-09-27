@@ -424,8 +424,9 @@ async function notFoundSweep(){
   const response=await page.goto(pages.notFound,{waitUntil:"networkidle",timeout:60000});await page.waitForTimeout(500);
   const renders=(await page.locator("h1.display").innerText()).trim()==="Wrong room.";
   const back=page.locator('a.btn',{hasText:"Back to Home"});let navigated=false;
-  if(await back.count()){await back.click();await page.waitForLoadState("domcontentloaded",{timeout:30000}).catch(()=>{});await page.waitForTimeout(500);navigated=await cleanUrl(page.url())===await cleanUrl(BASE);}
-  await context.close();return {status:response?.status()||0,renders,backHome:await back.count()===1,navigated,errors:errors.length};
+  const backHome=await back.count()===1;
+  if(backHome){await back.click();await page.waitForLoadState("domcontentloaded",{timeout:30000}).catch(()=>{});await page.waitForTimeout(500);navigated=await cleanUrl(page.url())===await cleanUrl(BASE);}
+  await context.close();return {status:response?.status()||0,renders,backHome,navigated,errors:errors.length};
 }
 
 results.interaction={};
