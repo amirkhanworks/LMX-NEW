@@ -179,9 +179,9 @@
 @media(max-width:991px){.case-card__story{gap:1.5rem}.case-card__media{margin-top:1.25rem}.spec-table{min-width:560px}}
 /* P2 homepage hierarchy refinement */
 .spread{min-height:72vh}
-#spread-title{font-size:clamp(4.75rem,8vw,7rem)}
+#spread-title{font-size:clamp(4.25rem,7vw,6rem)}
 .how{padding-block:10vh;gap:3.5rem}
-#how-title{font-size:clamp(4.75rem,8vw,7rem)}
+#how-title{font-size:clamp(4.25rem,7vw,6rem)}
 .how__steps article{min-height:190px;padding:2rem}
 .zoom{height:220vh}
 #zoom-title{font-size:clamp(4.25rem,6.5vw,6.5rem);white-space:normal;max-width:900px;text-wrap:balance}
