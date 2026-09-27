@@ -38,7 +38,6 @@ await fs.mkdir("qa/live",{recursive:true});
 const browser = await chromium.launch({headless:true});
 const results = {generatedAt:new Date().toISOString(), pages:{}, overall:"PASS"};
 
-function normalize(s){ return (s || "").replace(/\s+/g," ").trim(); }
 function boxData(e){
   if(!e) return null;
   const b=e.getBoundingClientRect();
@@ -63,6 +62,7 @@ for (const [name,url] of Object.entries(pages)) {
     const response=await page.goto(url,{waitUntil:"networkidle",timeout:60000});
     await page.waitForTimeout(1000);
     const data=await page.evaluate(({name,required,techExpected,prohibitedInTech})=>{
+      const normalize=s => (s || "").replace(/\\s+/g," ").trim();
       const body=document.body, doc=document.documentElement;
       const txt=body ? body.innerText : "";
       const clean=normalize(txt);
