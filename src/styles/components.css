@@ -11,3 +11,15 @@ button,a,input,textarea,select{touch-action:manipulation}
 .footer a{text-underline-offset:.25em}
 .footer a:hover{text-decoration:underline}
 @media(prefers-reduced-motion:reduce){.btn:hover{transform:none}.nav__link,.footer a,.btn{transition:none}}
+
+
+/* P0 product availability status */
+.status{display:inline-flex;align-items:center;width:max-content;padding:.3rem .6rem;border-radius:999px;font:600 .6875rem/1 var(--font-body);letter-spacing:.05em;text-transform:uppercase}
+.status--available{background:var(--ink);color:var(--paper)}
+.status--beta{background:var(--blue);color:var(--paper)}
+.status--soon{background:var(--amber);color:var(--ink)}
+.status--confirm{border:1px solid var(--ink-30);background:transparent;color:var(--ink)}
+.panel__status{margin-top:.75rem}
+.panel__status-note{margin:.55rem 0 0;max-width:28ch;color:var(--ink-60);font-size:.78rem;line-height:1.45}
+.chip--status{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem}
+.chip--status .status{font-size:.6rem}
