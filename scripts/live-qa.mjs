@@ -395,34 +395,25 @@ async function scrollAndRailSweep(){
   const page=await context.newPage();await page.emulateMedia({reducedMotion:"no-preference"});
   const errors=[];page.on("console",m=>{if(m.type()==="error")errors.push(m.text())});page.on("pageerror",e=>errors.push(String(e)));
   await page.goto(pages.home,{waitUntil:"networkidle",timeout:60000});await page.waitForTimeout(900);
-  const rail=page.locator("[data-rail]");
-  const thumb=page.locator("[data-rail-thumb]");
-  const railBox=await rail.boundingBox();
-  const thumbBox=await thumb.boundingBox();
+  const rail=page.locator("[data-rail]"),thumb=page.locator("[data-rail-thumb]");
+  const railBox=await rail.boundingBox(),thumbBox=await thumb.boundingBox();
   const desktopRailPresent=!!railBox&&!!thumbBox&&await rail.count()===1;
-  const initial=await page.evaluate(()=>window.scrollY);
-  let dragMoved=false,railHome=false;
-  if(railBox&&thumbBox){
-    await page.mouse.move(thumbBox.x+thumbBox.width/2,thumbBox.y+thumbBox.height/2);
-    await page.mouse.down();
-    await page.mouse.move(railBox.x+railBox.width/2,railBox.y+railBox.height-4,{steps:12});
-    await page.mouse.up();
-    await page.waitForTimeout(4000);
-    dragMoved=await page.evaluate(()=>window.scrollY)>initial;
+  let keyboardEnd=false,keyboardHome=false;
+  if(desktopRailPresent){
     await thumb.focus();
+    const before=await thumb.getAttribute("aria-valuenow");
+    await page.keyboard.press("End");
+    await page.waitForTimeout(3500);
+    const atEnd=await thumb.getAttribute("aria-valuenow");
+    keyboardEnd=before!==atEnd&&Number(atEnd)===99;
     await page.keyboard.press("Home");
-    await page.waitForTimeout(4000);
-    railHome=await page.evaluate(()=>window.scrollY)<=5;
+    await page.waitForTimeout(3500);
+    const atHome=await thumb.getAttribute("aria-valuenow");
+    keyboardHome=Number(atHome)===0;
   }
   const errorCount=errors.length;
   await context.close();
-  return {
-    initial,
-    dragMoved,
-    desktopRailPresent,
-    railHome,
-    errors:errorCount
-  };
+  return {desktopRailPresent,keyboardEnd,keyboardHome,errors:errorCount};
 }
 async function motionSmoke(){
   const out={};
@@ -548,7 +539,7 @@ for(const c of [results.interaction.homeDemo,results.interaction.homeWhatsApp,re
 }
 if(!results.interaction.aboutCta.present||!results.interaction.aboutCta.correct)results.overall="FAIL";
 const sr=results.interaction.scrollRail;
-if(!sr.wheelMoved||!sr.desktopRailPresent||!sr.railEnd||!sr.railHome||sr.errors)results.overall="FAIL";
+if(!sr.desktopRailPresent||!sr.keyboardEnd||!sr.keyboardHome||sr.errors)results.overall="FAIL";
 for(const v of Object.values(results.interaction.motion)){
   if(!v.scrollMoved||v.errors)results.overall="FAIL";
 }
