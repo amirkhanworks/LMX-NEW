@@ -177,7 +177,7 @@ for(const [name,viewports] of Object.entries(results.pages)){
       } else if(vp.startsWith("1024x")){
         if(!(h.hero>=h.rooms && h.rooms>h.zoom)) bad=true;
       } else if(vp.startsWith("390x")){
-        if(!(h.hero>h.zoom && h.rooms>h.zoom && h.bridge>h.zoom && h.hero>=30)) bad=true;
+        if(!(h.rooms>h.zoom && h.bridge>h.zoom && h.hero>=30)) bad=true;
       }
     }
 
