@@ -122,3 +122,9 @@
 
 /* Mobile bridge heading fit */
 @media(max-width:991px){.bridge__intro .display__line{font-size:clamp(3.25rem,11vw,7rem)}}
+
+/* Bridge heading: keep both paths visible and heading inside its column */
+.bridge{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.bridge__intro{min-width:0;overflow:hidden}
+.bridge__intro .display{font-size:clamp(4rem,7vw,7rem);min-width:0;max-width:100%}
+.bridge__intro .display__line{width:auto;max-width:100%}
