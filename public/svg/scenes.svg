@@ -110,14 +110,43 @@
 
 <symbol id="moving-day" viewBox="0 0 100 100">
   <rect width="100" height="100" fill="#F2EFEA"/>
-  <path d="M0 76h100v24H0z" fill="#D9D0C4"/>
-  <path d="M10 58 29 45l19 9-18 14z" fill="#D9A35C" stroke="#0D1D35" stroke-opacity=".35"/>
-  <path d="m29 45 1 23M10 58l18 10M48 54v13" stroke="#0D1D35" stroke-opacity=".25"/>
-  <path d="M52 66 74 51l16 9-20 17z" fill="#C78F4E" stroke="#0D1D35" stroke-opacity=".35"/>
-  <path d="M74 51v26M52 66l18 11M90 60v13M70 77l20-17" stroke="#0D1D35" stroke-opacity=".25"/>
-  <rect x="66" y="30" width="17" height="10" rx="2" fill="#FAFAF8" stroke="#0D1D35" stroke-opacity=".3"/>
-  <circle cx="74.5" cy="35" r="3" fill="#E8A33D"/>
-  <path d="M17 83h70" stroke="#0D1D35" stroke-opacity=".16"/>
+  <path d="M0 79h100v21H0z" fill="#D9D0C4"/>
+
+  <g opacity=".96">
+    <rect x="5" y="15" width="25" height="52" rx="2" fill="#FAFAF8" stroke="#0D1D35" stroke-opacity=".18"/>
+    <path d="M17 15v-4h6v4M10 27h15M10 38h11" stroke="#0D1D35" stroke-opacity=".28" stroke-width="1.4"/>
+    <rect x="21" y="43" width="6" height="11" rx="1.5" fill="#0D1D35"/>
+    <circle cx="24" cy="48.5" r="1.7" fill="#E8A33D"/>
+    <path d="M8 67h19" stroke="#0D1D35" stroke-opacity=".22"/>
+  </g>
+
+  <path d="M32 40h7" stroke="#1A5CB8" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="m37 36 4 4-4 4" fill="none" stroke="#1A5CB8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g>
+    <path d="M39 56 50 49l11 6-11 7z" fill="#D9A35C" stroke="#0D1D35" stroke-opacity=".28"/>
+    <path d="M50 49v13M39 56l11 6M61 55v8" fill="none" stroke="#0D1D35" stroke-opacity=".24"/>
+    <rect x="44" y="35" width="12" height="8" rx="1.8" fill="#0D1D35"/>
+    <circle cx="50" cy="39" r="2.1" fill="#E8A33D"/>
+    <path d="M50 31v-5" stroke="#1A5CB8" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="m47.5 28.5 2.5-2.5 2.5 2.5" fill="none" stroke="#1A5CB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <path d="M63 40h7" stroke="#1A5CB8" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="m68 36 4 4-4 4" fill="none" stroke="#1A5CB8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g opacity=".96">
+    <rect x="72" y="15" width="23" height="52" rx="2" fill="#FAFAF8" stroke="#0D1D35" stroke-opacity=".18"/>
+    <path d="M84 15v-4h6v4M77 27h14M77 38h11" stroke="#0D1D35" stroke-opacity=".28" stroke-width="1.4"/>
+    <rect x="78" y="43" width="6" height="11" rx="1.5" fill="#0D1D35"/>
+    <circle cx="81" cy="48.5" r="1.7" fill="#E8A33D"/>
+    <path d="M75 67h18" stroke="#0D1D35" stroke-opacity=".22"/>
+  </g>
+
+  <path d="M7 74h87" stroke="#0D1D35" stroke-opacity=".14"/>
+  <circle cx="9" cy="9" r="1.5" fill="#E8A33D"/>
+  <circle cx="50" cy="9" r="1.5" fill="#1A5CB8"/>
+  <circle cx="91" cy="9" r="1.5" fill="#E8A33D"/>
 </symbol>
 
 <symbol id="pcb-macro" viewBox="0 0 100 100">
