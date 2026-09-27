@@ -402,11 +402,11 @@ async function scrollAndRailSweep(){
   if(desktopRailPresent){
     await thumb.focus();
     const before=await thumb.getAttribute("aria-valuenow");
-    await page.keyboard.press("End");
+    await thumb.press("End");
     await page.waitForTimeout(3500);
     const atEnd=await thumb.getAttribute("aria-valuenow");
     keyboardEnd=before!==atEnd&&Number(atEnd)===99;
-    await page.keyboard.press("Home");
+    await thumb.press("Home");
     await page.waitForTimeout(3500);
     const atHome=await thumb.getAttribute("aria-valuenow");
     keyboardHome=Number(atHome)===0;
