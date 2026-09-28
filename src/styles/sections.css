@@ -1580,3 +1580,14 @@ body[data-page="privacy"] .about-hero .prose strong{
     min-height:58svh;
   }
 }
+
+/* Fixed-header safe anchor for the No Rewiring section */
+#spread-title{
+  scroll-margin-top:clamp(6rem,8vh,7rem);
+}
+
+@media(max-width:560px){
+  #spread-title{
+    scroll-margin-top:6.75rem;
+  }
+}
