@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/check-content.mjs dist",
+    "build": "vite build && node -e \"const fs=require('node:fs');fs.mkdirSync('dist/assets-src/img',{recursive:true});fs.copyFileSync('assets-src/img/hero-living-room.png','dist/assets-src/img/hero-living-room.png')\" && node scripts/check-content.mjs dist",
     "preview": "vite preview",
     "fonts": "node scripts/fonts.mjs",
     "images": "node scripts/images.mjs",
