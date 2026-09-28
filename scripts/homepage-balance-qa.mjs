@@ -81,6 +81,12 @@ for(const viewport of viewports){
         height:breakEl?.getBoundingClientRect().height||0,
         background:breakEl?colorOf(breakEl):null
       },
+      bridgeDetail:{
+        section:bridge?.getBoundingClientRect().toJSON()||null,
+        intro:document.querySelector(".bridge__intro")?.getBoundingClientRect().toJSON()||null,
+        paths:document.querySelector(".bridge__paths")?.getBoundingClientRect().toJSON()||null,
+        cards:[...document.querySelectorAll(".bridge__path")].map(el=>({className:el.className,box:el.getBoundingClientRect().toJSON()}))
+      },
       nav:{
         present:!!nav,
         bottom:nav?.getBoundingClientRect().bottom||0
