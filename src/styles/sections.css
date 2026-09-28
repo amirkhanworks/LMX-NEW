@@ -667,3 +667,23 @@ body[data-page="privacy"] .about-hero .prose strong{
     padding-bottom:6rem;
   }
 }
+
+/* Explicit clean break between TWO PATHS and NO REWIRING */
+.section-break{
+  height:clamp(2.5rem,4vw,4rem);
+  background:var(--navy);
+  display:block;
+  width:100%;
+}
+
+.spread{
+  margin-top:0;
+}
+
+@media(max-width:991px){
+  .section-break{height:clamp(2rem,4vw,3rem)}
+}
+
+@media(max-width:560px){
+  .section-break{height:1.5rem}
+}
