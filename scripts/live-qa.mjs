@@ -173,6 +173,16 @@ for (const [name,url] of Object.entries(pages)) {
         }
         const order=["hero-title","bridge-title","spread-title","how-title","rooms-title","zoom-title","keychain-title","safe-title","renter-title","proof-title","testimonials-title","cta-title"];
         out.flowY=order.map(id=>{const el=document.getElementById(id)||document.querySelector("."+id);return [id,el?el.getBoundingClientRect().top:null]}).filter(x=>x[1]!==null);
+        out.transition={
+          bridgeBox:box(document.querySelector(".bridge")),
+          spreadBox:box(document.querySelector(".spread")),
+          bridgeDocumentBottom:document.querySelector(".bridge")?.getBoundingClientRect().bottom + scrollY || 0,
+          spreadDocumentTop:document.querySelector(".spread")?.getBoundingClientRect().top + scrollY || 0,
+          sectionGap:document.querySelector(".spread")&&document.querySelector(".bridge") ? Math.max(0,document.querySelector(".spread").getBoundingClientRect().top-document.querySelector(".bridge").getBoundingClientRect().bottom) : null,
+          navBottom:document.querySelector(".nav")?.getBoundingClientRect().bottom||0,
+          bridgeTitleTop:document.querySelector("#bridge-title")?.getBoundingClientRect().top||0,
+          noScrollSnap:getComputedStyle(document.documentElement).scrollSnapType==="none" && getComputedStyle(document.body).scrollSnapType==="none"
+        };
       }
 
       if(name==="about"){
@@ -517,6 +527,8 @@ for(const [name,viewports] of Object.entries(results.pages)){
       if(d.controls?.join("|")!=="App|Voice|Keychain Remote")bad=true;
       if(d.acCaveatCount!==1||d.testimonial1Count!==1||d.testimonial2Count!==1)bad=true;
       if(name==="home"){
+        const t=d.transition||{};
+        if(t.sectionGap===null||t.sectionGap<20||!t.noScrollSnap)bad=true;
         const r=d.originalRoomImages||{};
         if(!r.lights?.present||!r.lights?.exact||!r.fans?.present||!r.fans?.exact||r.generatedLightRefs!==0||r.generatedFanRefs!==0)bad=true;
       }
