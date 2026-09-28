@@ -343,3 +343,11 @@ body[data-page="privacy"] .about-hero .prose strong{
     text-wrap:nowrap;
   }
 }
+
+/* Testimonials heading: keep the existing wording on one desktop line */
+@media(min-width:992px){
+  #testimonials-title{
+    white-space:nowrap;
+    text-wrap:nowrap;
+  }
+}
