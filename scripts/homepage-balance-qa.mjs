@@ -116,7 +116,7 @@ const failures=results.filter(r=>
   r.backgrounds.bridge!=="rgb(13,29,53)" ||
   r.backgrounds.noRewiring!=="rgb(26,92,184)" ||
   r.images.heroExact===false ||
-  r.noRewiring.title.replace(/\s+/g," ").toLowerCase()!=="no rewiring." ||
+  r.noRewiring.title.replace(/\s+/g," ").trim().toLowerCase()!=="no rewiring." ||
   !r.noRewiring.cta.includes("Book a Home Demo")
 );
 
