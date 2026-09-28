@@ -1095,3 +1095,9 @@ body[data-page="privacy"] .about-hero .prose strong{
     padding-top:7.25rem;
   }
 }
+
+@media(max-width:560px){
+  .spread.no-rewiring{
+    padding-top:9rem;
+  }
+}
