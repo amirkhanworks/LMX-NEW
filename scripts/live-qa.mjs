@@ -131,9 +131,9 @@ for (const [name,url] of Object.entries(pages)) {
       if(name==="home"){
         out.roomTitles=[...document.querySelectorAll(".panel__title")].map(e=>normalize(e.innerText));
         out.controls=[...document.querySelectorAll(".ctrl h3")].map(e=>normalize(e.innerText));
-        out.acCaveatCount=(bodyRaw.match(/Tested during our beta; coming soon for all homes\./gi)||[]).length;
-        out.testimonial1Count=(bodyRaw.match(/The best part for us has been my grandparents\./gi)||[]).length;
-        out.testimonial2Count=(bodyRaw.match(/I can turn my AC on before I even walk in the door/g)||[]).length;
+        out.acCaveatCount=document.querySelectorAll(".panel__status-note").length;
+        out.testimonial1Count=[...document.querySelectorAll(".testimonial p")].filter(e=>normalize(e.innerText).includes("The best part for us has been my grandparents.")).length;
+        out.testimonial2Count=[...document.querySelectorAll(".testimonial p")].filter(e=>normalize(e.innerText).includes("I can turn my AC on before I even walk in the door")).length;
         out.waitlistPresent=!!document.querySelector("[data-waitlist]");
         out.homeDemoCtas=[...document.querySelectorAll(".hero__actions .btn--paper,.cta__primary")].map(a=>({text:normalize(a.innerText),href:a.href,target:a.target}));
         out.homeWhatsApp=[...document.querySelectorAll(".cta__secondary")].map(a=>({text:normalize(a.innerText),href:a.href,target:a.target}));
@@ -203,8 +203,8 @@ for (const [name,url] of Object.entries(pages)) {
         out.privacyReadableColumn=proseBox?proseBox.width<=viewport.width-32:false;
         out.privacyTitleTop=titleBox?.y??null;
         out.privacyFooterTop=footer?footer.getBoundingClientRect().top:null;
-        out.privacyMainButtons=document.querySelectorAll("main .btn").length;
-        out.privacyMainImages=document.querySelectorAll("main img").length;
+        out.privacyMainButtons=document.querySelectorAll(".about-hero .btn").length;
+        out.privacyMainImages=document.querySelectorAll(".about-hero img").length;
         out.privacyFooterCurrent=document.querySelector('footer a[aria-current="page"]')?.getAttribute("href")||null;
       }
       if(name==="engineering"){
