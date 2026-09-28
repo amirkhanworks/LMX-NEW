@@ -351,3 +351,8 @@ body[data-page="privacy"] .about-hero .prose strong{
     text-wrap:nowrap;
   }
 }
+
+/* Capabilities heading: subtle 12% size reduction, with all other styling/layout unchanged */
+.capabilities > h2.display{
+  font-size:clamp(2.64rem,10.56vw,10.56rem);
+}
