@@ -22,7 +22,9 @@ for(const viewport of viewports){
   page.on("pageerror",e=>errors.push(String(e)));
   page.on("console",m=>{if(m.type()==="error")errors.push(m.text())});
   await page.goto(URL,{waitUntil:"networkidle",timeout:60000});
+  await page.waitForFunction(()=>document.querySelector("[data-preloader]")?.style.display==="none" || getComputedStyle(document.querySelector("[data-preloader]")).visibility==="hidden",{timeout:15000}).catch(()=>{});
   await page.waitForFunction(()=>document.querySelector(".no-rewiring")?.getBoundingClientRect().height>0,{timeout:15000});
+  await page.waitForTimeout(900);
 
   const data=await page.evaluate(()=>{
     const section=document.querySelector(".no-rewiring");
@@ -62,7 +64,7 @@ await browser.close();
 const failures=results.filter(r=>
   r.errors.length ||
   r.scrollWidth>r.viewportWidth+1 ||
-  r.titleText.trim()!=="No Rewiring." ||
+  r.titleText.trim().replace(/\s+/g," ").toLowerCase()!=="no rewiring." ||
   r.titleParts.join("|")!=="No|Rewiring." ||
   r.eyebrow.trim()!=="Our retrofit solution" ||
   r.note.trim()!=="Installs behind your existing switchboard." ||
