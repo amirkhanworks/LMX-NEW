@@ -31,7 +31,7 @@ for(const viewport of viewports){
   await page.waitForTimeout(500);
 
   const data=await page.evaluate(()=>{
-    const rgb=c=>c.replace(/\\s+/g,"").toLowerCase();
+    const rgb=c=>c.replace(/\s+/g,"").toLowerCase();
     const sectionEls=[...document.querySelectorAll("main > section")];
     const mainBlocks=[...document.querySelectorAll("main > *")];
     const colorOf=el=>rgb(getComputedStyle(el).backgroundColor);
@@ -117,7 +117,7 @@ for(const viewport of viewports){
     cleanBreak:data.break.present&&data.break.height>=12&&data.break.background==="rgb(250, 250, 248)",
     navyBrand:data.backgrounds.bridge==="rgb(13,29,53)"&&data.backgrounds.safe==="rgb(13,29,53)",
     keychainIsLight:data.backgrounds.keychain==="rgb(250,250,248)"||data.backgrounds.keychain==="rgb(255,255,255)",
-    blueBrand:data.backgrounds.noRewiring==="rgb(26, 92, 184)"&&data.backgrounds.cta==="rgb(26, 92, 184)",
+    blueBrand:data.backgrounds.noRewiring==="rgb(26,92,184)"&&data.backgrounds.cta==="rgb(26,92,184)",
     heroUnchanged:data.images.heroExact,
     noRewiringTitle:data.noRewiring.title.replace(/\s+/g," ").trim().toLowerCase()==="no rewiring.",
     demoCtaVisible:data.noRewiring.cta.includes("Book a Home Demo")
