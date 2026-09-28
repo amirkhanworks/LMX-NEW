@@ -629,3 +629,41 @@ body[data-page="privacy"] .about-hero .prose strong{
     padding-bottom:5.5rem;
   }
 }
+
+/* Bridge → No Rewiring: visible breathing space plus navigation-safe section entry */
+.bridge{
+  padding-top:clamp(7rem,11vh,9rem);
+  padding-bottom:clamp(7rem,12vh,10rem);
+}
+
+.spread{
+  margin-top:clamp(2.5rem,4vw,4rem);
+  padding-top:clamp(8rem,11vh,10rem);
+  padding-bottom:clamp(7rem,10vh,9rem);
+}
+
+@media(max-width:991px){
+  .bridge{
+    padding-top:clamp(6rem,10vh,7.5rem);
+    padding-bottom:clamp(6rem,10vh,8rem);
+  }
+
+  .spread{
+    margin-top:clamp(1.75rem,5vw,2.5rem);
+    padding-top:clamp(6rem,10vh,8rem);
+    padding-bottom:clamp(6rem,10vh,8rem);
+  }
+}
+
+@media(max-width:560px){
+  .bridge{
+    padding-top:5.75rem;
+    padding-bottom:6rem;
+  }
+
+  .spread{
+    margin-top:1.5rem;
+    padding-top:5.75rem;
+    padding-bottom:6rem;
+  }
+}
