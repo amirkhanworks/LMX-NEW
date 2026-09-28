@@ -377,3 +377,12 @@ body[data-page="privacy"] .about-hero .prose strong{
     font-size:clamp(2.34rem,9.36vw,9.36rem);
   }
 }
+
+/* What we work with heading: reduce display scale ~28% and keep on one desktop line */
+@media(min-width:992px){
+  .tech > h2.display{
+    font-size:clamp(2.16rem,8.64vw,8.64rem);
+    white-space:nowrap;
+    text-wrap:nowrap;
+  }
+}
