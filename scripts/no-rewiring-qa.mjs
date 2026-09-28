@@ -49,6 +49,7 @@ for(const viewport of viewports){
       benefits:benefits.map(e=>({title:e.querySelector("h3")?.innerText||"",text:e.querySelector("p")?.innerText||"",icon:!!e.querySelector("svg")})),
       cta:{text:cta?.innerText||"",href:cta?.href||""},
       nav:rect(nav),
+      navOverlap:title&&nav ? title.getBoundingClientRect().top < nav.getBoundingClientRect().bottom + 8 : false,
       scrollWidth:Math.max(document.documentElement.scrollWidth,body.scrollWidth),
       viewportWidth:window.innerWidth,
       scrollY:window.scrollY
@@ -74,6 +75,7 @@ const failures=results.filter(r=>
   !r.benefits.every(b=>b.icon&&b.title&&b.text) ||
   !r.cta.text.includes("Book a Home Demo") ||
   !r.cta.href.startsWith("https://form.typeform.com/to/") ||
+  r.navOverlap ||
   (r.viewport.width>=992 && r.section.height>r.viewport.height*.9)
 );
 
