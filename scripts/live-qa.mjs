@@ -207,6 +207,12 @@ for (const [name,url] of Object.entries(pages)) {
         out.privacyMainImages=document.querySelectorAll(".about-hero img").length;
         out.privacyFooterCurrent=document.querySelector('footer a[aria-current="page"]')?.getAttribute("href")||null;
       }
+      if(name==="notFound"){
+        out.notFound={
+          wrongRoom:normalize(visibleText).toLowerCase().includes("wrong room."),
+          backHome:[...document.querySelectorAll("a.btn")].some(a=>normalize(a.innerText).toLowerCase()==="back to home")
+        };
+      }
       if(name==="engineering"){
         out.capabilities=[...document.querySelectorAll(".capability h3")].map(e=>normalize(e.innerText));
         out.process=[...document.querySelectorAll(".process__step h2")].map(e=>normalize(e.innerText));
