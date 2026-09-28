@@ -98,27 +98,26 @@ for(const viewport of viewports){
     };
   });
 
+  const checks={
+    noConsoleErrors:errors.length===0,
+    noHorizontalOverflow:data.scrollWidth<=data.viewportWidth+1,
+    strongAreaNotDominant:data.sectionMetrics.strongRatio<=0.60,
+    lightAreaPresent:data.sectionMetrics.lightRatio>=0.40,
+    cleanBreak:data.break.present&&data.break.height>=12&&data.break.background==="rgb(250,250,248)",
+    navyBrand:data.backgrounds.bridge==="rgb(13,29,53)"&&data.backgrounds.keychain==="rgb(13,29,53)"&&data.backgrounds.safe==="rgb(13,29,53)",
+    blueBrand:data.backgrounds.noRewiring==="rgb(26,92,184)"&&data.backgrounds.cta==="rgb(26,92,184)",
+    heroUnchanged:data.images.heroExact,
+    noRewiringTitle:data.noRewiring.title.replace(/\s+/g," ").trim().toLowerCase()==="no rewiring.",
+    demoCtaVisible:data.noRewiring.cta.includes("Book a Home Demo")
+  };
   await page.screenshot({path:`qa/live/homepage-balance/home-${viewport.width}.png`,fullPage:false});
-  results.push({viewport,...data,errors});
+  results.push({viewport,...data,errors,checks});
   await page.close();
 }
 
 await browser.close();
 
-const failures=results.filter(r=>
-  r.errors.length ||
-  r.scrollWidth>r.viewportWidth+1 ||
-  r.sectionMetrics.strongRatio>0.60 ||
-  r.sectionMetrics.lightRatio<0.40 ||
-  !r.break.present ||
-  r.break.height<12 ||
-  r.break.background!=="rgb(250,250,248)" ||
-  r.backgrounds.bridge!=="rgb(13,29,53)" ||
-  r.backgrounds.noRewiring!=="rgb(26,92,184)" ||
-  r.images.heroExact===false ||
-  r.noRewiring.title.replace(/\s+/g," ").trim().toLowerCase()!=="no rewiring." ||
-  !r.noRewiring.cta.includes("Book a Home Demo")
-);
+const failures=results.filter(r=>Object.values(r.checks||{}).some(v=>!v));
 
 const output={overall:failures.length?"FAIL":"PASS",results,failures:failures.map(r=>r.viewport)};
 fs.writeFileSync("qa/live/homepage-balance/results.json",JSON.stringify(output,null,2));
