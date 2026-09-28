@@ -158,6 +158,19 @@ for (const [name,url] of Object.entries(pages)) {
         };
         out.hierarchy={hero:fs("hero-title"),rooms:fs("rooms-title"),bridge:fs("bridge-title"),zoom:fs("zoom-title"),keychain:fs("keychain-title"),safe:fs("safe-title"),renter:fs("renter-title"),proof:fs("proof-title"),testimonials:fs("testimonials-title"),cta:fs("cta-title")};
         out.heroLineBoxes=[...document.querySelectorAll("#hero-title .display__line")].map(e=>box(e));
+        if(name==="home"){
+          const exact=(selector,path)=>{
+            const el=document.querySelector(selector);
+            const src=el?.currentSrc||el?.src||null;
+            return {present:!!el,src,exact:src===location.origin+path,width:el?.naturalWidth||0,height:el?.naturalHeight||0};
+          };
+          out.originalRoomImages={
+            lights:exact(".panel .panel__media img[src$=\"/assets-src/img/room-lights.png\"]","/LMX-NEW/assets-src/img/room-lights.png"),
+            fans:exact(".panel .panel__media img[src$=\"/assets-src/img/room-fans.png\"]","/LMX-NEW/assets-src/img/room-fans.png"),
+            generatedLightRefs:[...document.querySelectorAll(".panel__media img")].filter(e=>/room-lights-\\d+\\.(avif|webp)$/.test(e.currentSrc||e.src)).length,
+            generatedFanRefs:[...document.querySelectorAll(".panel__media img")].filter(e=>/room-fans-\\d+\\.(avif|webp)$/.test(e.currentSrc||e.src)).length
+          };
+        }
         const order=["hero-title","bridge-title","spread-title","how-title","rooms-title","zoom-title","keychain-title","safe-title","renter-title","proof-title","testimonials-title","cta-title"];
         out.flowY=order.map(id=>{const el=document.getElementById(id)||document.querySelector("."+id);return [id,el?el.getBoundingClientRect().top:null]}).filter(x=>x[1]!==null);
       }
