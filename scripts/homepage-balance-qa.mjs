@@ -30,9 +30,9 @@ for(const viewport of viewports){
     const sectionEls=[...document.querySelectorAll("main > section")];
     const mainBlocks=[...document.querySelectorAll("main > *")];
     const colorOf=el=>rgb(getComputedStyle(el).backgroundColor);
-    const strongDark="rgb(13,29,53)";
-    const strongBlue="rgb(26,92,184)";
-    const lightSet=new Set(["rgb(250,250,248)","rgb(255,255,255)"]);
+    const strongDark="rgb(13, 29, 53)";
+    const strongBlue="rgb(26, 92, 184)";
+    const lightSet=new Set(["rgb(250, 250, 248)","rgb(255, 255, 255)"]);
     const contentBlocks=mainBlocks.filter(el=>!el.classList.contains("hero"));
     let dark=0,blue=0,light=0,other=0;
     for(const el of contentBlocks){
@@ -103,9 +103,9 @@ for(const viewport of viewports){
     noHorizontalOverflow:data.scrollWidth<=data.viewportWidth+1,
     strongAreaNotDominant:data.sectionMetrics.strongRatio<=0.60,
     lightAreaPresent:data.sectionMetrics.lightRatio>=0.40,
-    cleanBreak:data.break.present&&data.break.height>=12&&data.break.background==="rgb(250,250,248)",
-    navyBrand:data.backgrounds.bridge==="rgb(13,29,53)"&&data.backgrounds.keychain==="rgb(13,29,53)"&&data.backgrounds.safe==="rgb(13,29,53)",
-    blueBrand:data.backgrounds.noRewiring==="rgb(26,92,184)"&&data.backgrounds.cta==="rgb(26,92,184)",
+    cleanBreak:data.break.present&&data.break.height>=12&&data.break.background==="rgb(250, 250, 248)",
+    navyBrand:data.backgrounds.bridge==="rgb(13, 29, 53)"&&data.backgrounds.keychain==="rgb(13, 29, 53)"&&data.backgrounds.safe==="rgb(13, 29, 53)",
+    blueBrand:data.backgrounds.noRewiring==="rgb(26, 92, 184)"&&data.backgrounds.cta==="rgb(26, 92, 184)",
     heroUnchanged:data.images.heroExact,
     noRewiringTitle:data.noRewiring.title.replace(/\s+/g," ").trim().toLowerCase()==="no rewiring.",
     demoCtaVisible:data.noRewiring.cta.includes("Book a Home Demo")
