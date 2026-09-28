@@ -700,7 +700,7 @@ body[data-page="privacy"] .about-hero .prose strong{
   box-sizing:border-box;
   background:var(--blue);
   color:var(--paper);
-  padding:clamp(4rem,7vw,5.5rem) var(--gutter) clamp(4.5rem,7vw,5.5rem);
+  padding:clamp(3.5rem,5vw,4.5rem) var(--gutter) clamp(3.5rem,5vw,4.5rem);
 }
 
 .no-rewiring__intro{
@@ -755,7 +755,7 @@ body[data-page="privacy"] .about-hero .prose strong{
 
 .retrofit-visual{
   width:min(100%,760px);
-  margin:clamp(2.25rem,4vw,3rem) auto clamp(2.5rem,4vw,3.25rem);
+  margin:clamp(1.75rem,3vw,2.25rem) auto clamp(2rem,3vw,2.5rem);
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(150px,190px) minmax(0,1fr);
   align-items:center;
@@ -898,7 +898,7 @@ body[data-page="privacy"] .about-hero .prose strong{
 }
 
 .no-rewiring__cta{
-  margin-top:clamp(2rem,3vw,2.5rem);
+  margin-top:clamp(1.75rem,2.5vw,2.25rem);
   background:var(--amber);
   color:var(--navy);
   border-color:var(--amber);
