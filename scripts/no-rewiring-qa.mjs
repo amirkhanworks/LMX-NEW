@@ -29,7 +29,7 @@ for(const viewport of viewports){
     return !pre || getComputedStyle(pre).display==="none";
   },{timeout:15000});
   await page.waitForFunction(()=>document.querySelector(".no-rewiring")?.getBoundingClientRect().height>0,{timeout:15000});
-  await page.locator(".no-rewiring").scrollIntoViewIfNeeded();
+  await page.locator("#spread-title").scrollIntoView({block:"start",inline:"nearest"});
   await page.waitForTimeout(700);
 
   const data=await page.evaluate(()=>{
