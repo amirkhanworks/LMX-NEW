@@ -1591,3 +1591,14 @@ body[data-page="privacy"] .about-hero .prose strong{
     scroll-margin-top:6.75rem;
   }
 }
+
+/* Global anchor safe area for the fixed header */
+html{
+  scroll-padding-top:clamp(6rem,8vh,7rem);
+}
+
+@media(max-width:560px){
+  html{
+    scroll-padding-top:6.75rem;
+  }
+}
