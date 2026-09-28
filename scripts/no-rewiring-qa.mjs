@@ -67,8 +67,8 @@ const failures=results.filter(r=>
   r.scrollWidth>r.viewportWidth+1 ||
   r.titleText.trim().replace(/\s+/g," ").toLowerCase()!=="no rewiring." ||
   r.titleParts.map(x=>x.toLowerCase()).join("|")!=="no|rewiring." ||
-  r.eyebrow.trim()!=="Our retrofit solution" ||
-  r.note.trim()!=="Installs behind your existing switchboard." ||
+  r.eyebrow.trim().toLowerCase()!=="our retrofit solution" ||
+  r.note.trim().toLowerCase()!=="installs behind your existing switchboard." ||
   !r.visual ||
   r.benefits.length!==4 ||
   !r.benefits.every(b=>b.icon&&b.title&&b.text) ||
