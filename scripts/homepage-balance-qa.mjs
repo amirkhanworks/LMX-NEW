@@ -114,7 +114,7 @@ for(const viewport of viewports){
     noHorizontalOverflow:data.scrollWidth<=data.viewportWidth+1,
     strongAreaNotDominant:data.sectionMetrics.strongRatio<=0.55,
     lightAreaPresent:data.sectionMetrics.lightRatio>=0.45,
-    cleanBreak:data.break.present&&data.break.height>=12&&data.break.background==="rgb(250, 250, 248)",
+    cleanBreak:data.break.present&&data.break.height>=12&&(data.break.background==="rgb(250,250,248)"||data.break.background==="rgb(255,255,255)"),
     navyBrand:data.backgrounds.bridge==="rgb(13,29,53)"&&data.backgrounds.safe==="rgb(13,29,53)",
     keychainIsLight:data.backgrounds.keychain==="rgb(250,250,248)"||data.backgrounds.keychain==="rgb(255,255,255)",
     blueBrand:data.backgrounds.noRewiring==="rgb(26,92,184)"&&data.backgrounds.cta==="rgb(26,92,184)",
