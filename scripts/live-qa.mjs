@@ -542,7 +542,7 @@ for(const [name,viewports] of Object.entries(results.pages)){
     if(name==="home"){
       if(d.roomTitles?.join("|")!=="Lights|Fans|LEDs|TV|Water pump|Security & surveillance|Curtains|AC")bad=true;
       if(!d.noRewiring?.present||d.noRewiring.title!=="No Rewiring."||d.noRewiring.titleParts.join("|")!=="No|Rewiring."||d.noRewiring.eyebrow!=="Our retrofit solution"||d.noRewiring.note!=="Installs behind your existing switchboard."||!d.noRewiring.productVisual||!d.noRewiring.moduleLogo||d.noRewiring.benefits.length!==4||!d.noRewiring.benefits.every(v=>v.icon&&v.title&&v.text)||!d.noRewiring.cta?.some(x=>x.text==="Book a Home Demo →"&&x.href.startsWith("https://form.typeform.com/to/")))bad=true;
-      if(width>=992&&d.noRewiring?.sectionHeight>viewport.height*.9)bad=true;
+      if(width>=992&&d.noRewiring?.sectionHeight>d.viewport.height*.9)bad=true;
       if(d.noRewiring?.sectionHeight<200)bad=true;
       if(d.controls?.join("|")!=="App|Voice|Keychain Remote")bad=true;
       if(d.acCaveatCount!==1||d.testimonial1Count!==1||d.testimonial2Count!==1)bad=true;
