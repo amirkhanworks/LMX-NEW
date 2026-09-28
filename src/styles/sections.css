@@ -1106,3 +1106,186 @@ body[data-page="privacy"] .about-hero .prose strong{
     padding-top:12.5rem;
   }
 }
+
+/* Homepage visual-balance refinement: reduce strong-color area, preserve brand colors */
+.section-break{
+  height:clamp(1rem,1.7vw,1.75rem);
+  background:var(--paper);
+}
+
+/* TWO PATHS: keep the navy identity, reduce uninterrupted viewport height */
+.bridge{
+  min-height:68vh;
+  padding-top:clamp(5.75rem,8vh,7.5rem);
+  padding-bottom:clamp(5rem,7vh,6.5rem);
+}
+
+.bridge__intro{
+  padding-top:8vh;
+  padding-bottom:8vh;
+}
+
+.bridge__path{
+  padding-top:8vh;
+  padding-bottom:8vh;
+}
+
+/* NO REWIRING: strong statement, but compact enough to stop feeling like a blue wall */
+.spread.no-rewiring{
+  padding-top:clamp(3.25rem,4.5vw,4.25rem);
+  padding-bottom:clamp(3.25rem,4.5vw,4.25rem);
+}
+
+.no-rewiring__scroll{
+  margin-bottom:1rem;
+}
+
+.no-rewiring__eyebrow{
+  margin-bottom:.65rem;
+}
+
+.no-rewiring__note{
+  margin-top:.65rem;
+}
+
+.retrofit-visual{
+  margin-top:1.5rem;
+  margin-bottom:1.6rem;
+}
+
+.no-rewiring__cta{
+  margin-top:1.4rem;
+}
+
+/* Keep the two dark sections below from becoming long uninterrupted blocks */
+.keychain{
+  padding-top:9vh;
+  padding-bottom:9vh;
+}
+
+.keychain__art{
+  min-height:340px;
+}
+
+.safe{
+  height:115vh;
+}
+
+.safe__screen{
+  min-height:0;
+}
+
+/* A small light separator gives the eye a rest before the next navy section */
+.safe{
+  border-top:clamp(.75rem,1.25vw,1.15rem) solid var(--paper);
+}
+
+/* Final CTA remains blue, but no longer occupies a full viewport by default */
+.cta{
+  min-height:72vh;
+}
+
+/* Keep the footer substantial but avoid excess navy runway */
+.footer-inner{
+  padding-top:8vh;
+  padding-bottom:4.5vh;
+}
+
+@media(max-width:991px){
+  .bridge{
+    min-height:auto;
+    padding-top:6rem;
+    padding-bottom:6rem;
+  }
+
+  .bridge__intro{
+    padding-top:7vh;
+    padding-bottom:6vh;
+  }
+
+  .bridge__path{
+    padding-top:6vh;
+    padding-bottom:6vh;
+  }
+
+  .spread.no-rewiring{
+    padding-top:5.5rem;
+    padding-bottom:4rem;
+  }
+
+  .keychain{
+    padding-top:9vh;
+    padding-bottom:9vh;
+  }
+
+  .keychain__art{
+    min-height:300px;
+  }
+
+  .safe{
+    height:auto;
+  }
+
+  .safe__screen{
+    min-height:72svh;
+  }
+
+  .cta{
+    min-height:72svh;
+  }
+}
+
+@media(max-width:560px){
+  .section-break{
+    height:1rem;
+  }
+
+  .bridge{
+    padding-top:5.5rem;
+    padding-bottom:5rem;
+  }
+
+  .bridge__intro{
+    padding-top:6vh;
+    padding-bottom:5vh;
+  }
+
+  .bridge__path{
+    padding-top:5vh;
+    padding-bottom:5vh;
+  }
+
+  .spread.no-rewiring{
+    padding:5.5rem 1.25rem 3.5rem;
+  }
+
+  .no-rewiring__scroll{
+    margin-bottom:.8rem;
+  }
+
+  .retrofit-visual{
+    margin-top:1.5rem;
+    margin-bottom:1.75rem;
+  }
+
+  .keychain{
+    padding-top:8vh;
+    padding-bottom:8vh;
+  }
+
+  .keychain__art{
+    min-height:260px;
+  }
+
+  .safe__screen{
+    min-height:68svh;
+  }
+
+  .cta{
+    min-height:68svh;
+  }
+
+  .footer-inner{
+    padding-top:7vh;
+  }
+}
