@@ -18,21 +18,26 @@ const results=[];
 
 for(const viewport of viewports){
   const page=await browser.newPage({viewport});
+  await page.addInitScript(()=>{try{sessionStorage.setItem("lmxVisited","1")}catch{}});
   const errors=[];
   page.on("pageerror",e=>errors.push(String(e)));
   page.on("console",m=>{if(m.type()==="error")errors.push(m.text())});
 
   await page.goto(URL,{waitUntil:"networkidle",timeout:60000});
-  await page.waitForTimeout(900);
+  await page.waitForFunction(()=>{
+    const pre=document.querySelector("[data-preloader]");
+    return !pre || getComputedStyle(pre).display==="none";
+  },{timeout:15000});
+  await page.waitForTimeout(500);
 
   const data=await page.evaluate(()=>{
-    const rgb=c=>c.replace(/s+/g,"").toLowerCase();
+    const rgb=c=>c.replace(/\\s+/g,"").toLowerCase();
     const sectionEls=[...document.querySelectorAll("main > section")];
     const mainBlocks=[...document.querySelectorAll("main > *")];
     const colorOf=el=>rgb(getComputedStyle(el).backgroundColor);
-    const strongDark="rgb(13, 29, 53)";
-    const strongBlue="rgb(26, 92, 184)";
-    const lightSet=new Set(["rgb(250, 250, 248)","rgb(255, 255, 255)"]);
+    const strongDark="rgb(13,29,53)";
+    const strongBlue="rgb(26,92,184)";
+    const lightSet=new Set(["rgb(250,250,248)","rgb(255,255,255)"]);
     const contentBlocks=mainBlocks.filter(el=>!el.classList.contains("hero"));
     let dark=0,blue=0,light=0,other=0;
     for(const el of contentBlocks){
@@ -101,10 +106,11 @@ for(const viewport of viewports){
   const checks={
     noConsoleErrors:errors.length===0,
     noHorizontalOverflow:data.scrollWidth<=data.viewportWidth+1,
-    strongAreaNotDominant:data.sectionMetrics.strongRatio<=0.60,
-    lightAreaPresent:data.sectionMetrics.lightRatio>=0.40,
+    strongAreaNotDominant:data.sectionMetrics.strongRatio<=0.55,
+    lightAreaPresent:data.sectionMetrics.lightRatio>=0.45,
     cleanBreak:data.break.present&&data.break.height>=12&&data.break.background==="rgb(250, 250, 248)",
-    navyBrand:data.backgrounds.bridge==="rgb(13, 29, 53)"&&data.backgrounds.keychain==="rgb(13, 29, 53)"&&data.backgrounds.safe==="rgb(13, 29, 53)",
+    navyBrand:data.backgrounds.bridge==="rgb(13,29,53)"&&data.backgrounds.safe==="rgb(13,29,53)",
+    keychainIsLight:data.backgrounds.keychain==="rgb(250,250,248)"||data.backgrounds.keychain==="rgb(255,255,255)",
     blueBrand:data.backgrounds.noRewiring==="rgb(26, 92, 184)"&&data.backgrounds.cta==="rgb(26, 92, 184)",
     heroUnchanged:data.images.heroExact,
     noRewiringTitle:data.noRewiring.title.replace(/\s+/g," ").trim().toLowerCase()==="no rewiring.",
