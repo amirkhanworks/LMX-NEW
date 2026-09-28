@@ -22,7 +22,12 @@ for(const viewport of viewports){
   page.on("pageerror",e=>errors.push(String(e)));
   page.on("console",m=>{if(m.type()==="error")errors.push(m.text())});
   await page.goto(URL,{waitUntil:"networkidle",timeout:60000});
+  await page.addInitScript(()=>{});
   await page.waitForFunction(()=>document.querySelector("[data-preloader]")?.style.display==="none" || getComputedStyle(document.querySelector("[data-preloader]")).visibility==="hidden",{timeout:15000}).catch(()=>{});
+  await page.waitForFunction(()=>{
+    const pre=document.querySelector("[data-preloader]");
+    return !pre || getComputedStyle(pre).display==="none";
+  },{timeout:15000});
   await page.waitForFunction(()=>document.querySelector(".no-rewiring")?.getBoundingClientRect().height>0,{timeout:15000});
   await page.locator(".no-rewiring").scrollIntoViewIfNeeded();
   await page.waitForTimeout(700);
