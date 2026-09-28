@@ -1016,3 +1016,53 @@ body[data-page="privacy"] .about-hero .prose strong{
     padding-top:3.5rem;
   }
 }
+
+/* No Rewiring safe-area treatment for the fixed navigation */
+.spread.no-rewiring{
+  scroll-margin-top:6.5rem;
+  padding-top:clamp(5.5rem,7vw,6.5rem);
+}
+
+.no-rewiring__scroll{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.45rem;
+  margin:0 0 1.4rem;
+  color:var(--paper);
+  font:500 .62rem/1 var(--font-mono);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.no-rewiring__scroll span:last-child{
+  font-size:.9rem;
+  line-height:1;
+  animation:lmx-no-rewire-scroll 2.1s ease-in-out infinite;
+}
+
+@keyframes lmx-no-rewire-scroll{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(4px)}
+}
+
+@media(max-width:991px){
+  .spread.no-rewiring{
+    scroll-margin-top:5.5rem;
+    padding-top:5rem;
+  }
+}
+
+@media(max-width:560px){
+  .spread.no-rewiring{
+    scroll-margin-top:5rem;
+    padding-top:5.25rem;
+  }
+  .no-rewiring__scroll{
+    margin-bottom:1rem;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .no-rewiring__scroll span:last-child{animation:none}
+}
