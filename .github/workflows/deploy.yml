@@ -34,12 +34,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Generate images when source pipeline or source assets changed
+      - name: Generate hero images when the master or image pipeline changes
         run: |
-          if git diff --quiet HEAD^ HEAD -- assets-src/img/ scripts/images.mjs; then
-            echo "No image-source or pipeline changes in this commit; using committed generated assets."
+          if git diff --quiet HEAD^ HEAD -- assets-src/img/hero-living-room.png scripts/hero-image.mjs scripts/images.mjs .github/workflows/deploy.yml; then
+            echo "No hero image-source or pipeline changes in this commit; using committed generated assets."
           else
-            npm run images
+            node scripts/hero-image.mjs
           fi
 
       - name: Persist regenerated hero assets
