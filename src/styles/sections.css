@@ -331,3 +331,15 @@ body[data-page="privacy"] .about-hero .prose strong{
     font-size:clamp(2.25rem,9vw,2.75rem);
   }
 }
+
+/* Proof heading: keep the existing wording and type treatment on one desktop line */
+@media(min-width:992px){
+  #proof-title{
+    display:flex;
+    flex-wrap:nowrap;
+    align-items:baseline;
+    gap:.25em;
+    white-space:nowrap;
+    text-wrap:nowrap;
+  }
+}
