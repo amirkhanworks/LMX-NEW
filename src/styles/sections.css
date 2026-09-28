@@ -356,3 +356,10 @@ body[data-page="privacy"] .about-hero .prose strong{
 .capabilities > h2.display{
   font-size:clamp(2.64rem,10.56vw,10.56rem);
 }
+
+/* Why clients heading: reduce display scale ~22% without changing its type treatment */
+@media(min-width:992px){
+  .why > h2.display{
+    font-size:clamp(2.34rem,9.36vw,9.36rem);
+  }
+}
