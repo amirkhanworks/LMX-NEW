@@ -204,9 +204,17 @@ for (const [name,url] of Object.entries(pages)) {
         out.oldMission=visibleText.includes("To make smart home automation affordable, easy to use, and accessible to everyone.");
         out.visionBox=box(document.querySelector(".vision-item:first-child > p:last-child"));
         out.missionBox=box(document.querySelector(".vision-item:last-child > p:last-child"));
+        out.visionSection=box(document.querySelector(".about-vision"));
+        out.visionIsLight=document.querySelector(".about-vision")?.dataset.bg==="light";
+        out.visionUsesSwap=!!document.querySelector(".about-vision[data-swap], .about-vision .hold__screen");
+        out.storyHeading=box(document.querySelector(".about-story__header .display"));
+        out.storyFactsCount=document.querySelectorAll(".about-story__facts>div").length;
         out.founders=[...document.querySelectorAll(".founder h3")].map(e=>normalize(e.innerText));
         out.founderRoles=[...document.querySelectorAll(".founder > .mono")].map(e=>normalize(e.innerText));
+        out.linkedinLinks=[...document.querySelectorAll(".founder__linkedin")].map(a=>({label:a.getAttribute("aria-label"),href:a.href,tag:a.tagName}));
         out.aboutCtas=[...document.querySelectorAll("main a.btn")].map(a=>({text:normalize(a.innerText),href:a.href}));
+        const aboutCta=document.querySelector(".about-cta");
+        out.aboutClosing={box:box(aboutCta),background:aboutCta?getComputedStyle(aboutCta).backgroundColor:null};
       }
 
 
@@ -557,8 +565,19 @@ for(const [name,viewports] of Object.entries(results.pages)){
       if(width<=390&&d.heroLineBoxes?.some(b=>b.x<-1||b.right>width+1))bad=true;
     }
     if(name==="about"){
+      const roles=["Co-founder & CPO","Co-founder & CEO","Co-founder & CTO"];
+      const links=[
+        "https://www.linkedin.com/in/saad-khan-604374b7/",
+        "https://www.linkedin.com/in/fahadkhan6432/",
+        "https://www.linkedin.com/in/amirkhanworks/"
+      ];
       if(!d.visionBox||!d.missionBox||d.visionBox.right>width+1||d.missionBox.right>width+1||d.oldVision||d.oldMission)bad=true;
-      if(d.founders?.join("|")!=="Fahad Khan|Saad Khan|Amir Khan")bad=true;
+      if(d.visionIsLight!==true||d.visionUsesSwap||!d.visionSection||d.visionSection.height<viewport.height*.60||d.visionSection.height>viewport.height*1.05)bad=true;
+      if(!d.storyHeading||d.storyHeading.fontSize>160||(width>=992&&d.storyHeading.fontSize<100)||d.storyFactsCount!==5)bad=true;
+      if(d.founders?.join("|")!=="Saad Khan|Fahad Khan|Amir Khan")bad=true;
+      if(JSON.stringify(d.founderRoles)!==JSON.stringify(roles))bad=true;
+      if(d.linkedinLinks?.length!==3||JSON.stringify(d.linkedinLinks.map(x=>x.href))!==JSON.stringify(links)||d.linkedinLinks.some(x=>x.tag!=="A"||!x.label?.includes("on LinkedIn")))bad=true;
+      if(!d.aboutClosing||d.aboutClosing.background!=="rgb(13, 29, 53)"||width>=992&&(d.aboutClosing.box.height<viewport.height*.40||d.aboutClosing.box.height>viewport.height*.70))bad=true;
       if(!d.aboutCtas?.some(x=>x.text==="Talk to Luminox"&&x.href.startsWith("mailto:")))bad=true;
     }
     if(name==="engineering"){
