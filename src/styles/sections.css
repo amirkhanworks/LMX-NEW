@@ -591,3 +591,41 @@ body[data-page="privacy"] .about-hero .prose strong{
 @media(prefers-reduced-motion:reduce){
   .hero__scroll-arrow{animation:none}
 }
+
+/* TWO PATHS → NO REWIRING: clean editorial breathing room */
+.bridge{
+  padding-top:clamp(5.5rem,8vh,7rem);
+  padding-bottom:clamp(6rem,10vh,9rem);
+  scroll-margin-top:clamp(5.5rem,8vh,7rem);
+}
+
+.spread{
+  padding-top:clamp(7rem,10vh,9rem);
+  padding-bottom:clamp(7rem,10vh,9rem);
+}
+
+@media(max-width:991px){
+  .bridge{
+    padding-top:clamp(5.5rem,9vh,7rem);
+    padding-bottom:clamp(5.5rem,9vh,7.5rem);
+    scroll-margin-top:5.5rem;
+  }
+
+  .spread{
+    padding-top:clamp(5.5rem,9vh,7.5rem);
+    padding-bottom:clamp(5.5rem,9vh,7.5rem);
+  }
+}
+
+@media(max-width:560px){
+  .bridge{
+    padding-top:5rem;
+    padding-bottom:5.5rem;
+    scroll-margin-top:5rem;
+  }
+
+  .spread{
+    padding-top:5.5rem;
+    padding-bottom:5.5rem;
+  }
+}
