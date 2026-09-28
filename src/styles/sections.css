@@ -363,3 +363,10 @@ body[data-page="privacy"] .about-hero .prose strong{
     font-size:clamp(2.34rem,9.36vw,9.36rem);
   }
 }
+
+/* Case studies heading: subtle 12% size reduction, with all other styling/layout unchanged */
+@media(min-width:992px){
+  .case-studies > h2.display{
+    font-size:clamp(2.64rem,10.56vw,10.56rem);
+  }
+}
