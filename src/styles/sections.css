@@ -1289,3 +1289,51 @@ body[data-page="privacy"] .about-hero .prose strong{
     padding-top:7vh;
   }
 }
+
+/* Final homepage color-balance pass: compact strong-color sections */
+.section-break{
+  height:clamp(1rem,1.5vw,1.5rem);
+  background:var(--paper);
+}
+
+@media(min-width:992px){
+  .spread.no-rewiring{
+    padding-top:3rem;
+    padding-bottom:3rem;
+  }
+
+  .no-rewiring__scroll{
+    margin-bottom:.75rem;
+  }
+
+  .retrofit-visual{
+    margin-top:1.25rem;
+    margin-bottom:1.4rem;
+  }
+
+  .no-rewiring__cta{
+    margin-top:1.2rem;
+  }
+}
+
+@media(max-width:991px){
+  .spread.no-rewiring{
+    padding-top:5rem;
+    padding-bottom:3.5rem;
+  }
+
+  .retrofit-visual{
+    margin-top:1.5rem;
+    margin-bottom:1.75rem;
+  }
+}
+
+@media(max-width:560px){
+  .section-break{
+    height:1rem;
+  }
+
+  .spread.no-rewiring{
+    padding:5.5rem 1.25rem 3.25rem;
+  }
+}
