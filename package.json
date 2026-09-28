@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node -e \"const fs=require('node:fs');const files=['hero-living-room','room-lights','room-fans','room-leds','room-tv','room-pump','room-security'];fs.mkdirSync('dist/assets-src/img',{recursive:true});for(const name of files)fs.copyFileSync('assets-src/img/'+name+'.png','dist/assets-src/img/'+name+'.png')\" && node scripts/check-content.mjs dist",
+    "build": "vite build && node -e \"const fs=require('node:fs');const files=['hero-living-room','room-lights','room-fans','room-leds','room-tv','room-pump','room-security','room-curtains','room-ac'];fs.mkdirSync('dist/assets-src/img',{recursive:true});for(const name of files)fs.copyFileSync('assets-src/img/'+name+'.png','dist/assets-src/img/'+name+'.png')\" && node scripts/check-content.mjs dist",
     "preview": "vite preview",
     "fonts": "node scripts/fonts.mjs",
     "images": "node scripts/images.mjs",
