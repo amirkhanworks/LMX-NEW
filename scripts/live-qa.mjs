@@ -572,12 +572,12 @@ for(const [name,viewports] of Object.entries(results.pages)){
         "https://www.linkedin.com/in/amirkhanworks/"
       ];
       if(!d.visionBox||!d.missionBox||d.visionBox.right>width+1||d.missionBox.right>width+1||d.oldVision||d.oldMission)bad=true;
-      if(d.visionIsLight!==true||d.visionUsesSwap||!d.visionSection||d.visionSection.height<viewport.height*.60||d.visionSection.height>viewport.height*1.05)bad=true;
+      if(d.visionIsLight!==true||d.visionUsesSwap||!d.visionSection||d.visionSection.height<d.viewport.height*.60||d.visionSection.height>d.viewport.height*1.05)bad=true;
       if(!d.storyHeading||d.storyHeading.fontSize>160||(width>=992&&d.storyHeading.fontSize<100)||d.storyFactsCount!==5)bad=true;
       if(d.founders?.join("|")!=="Saad Khan|Fahad Khan|Amir Khan")bad=true;
       if(JSON.stringify(d.founderRoles)!==JSON.stringify(roles))bad=true;
       if(d.linkedinLinks?.length!==3||JSON.stringify(d.linkedinLinks.map(x=>x.href))!==JSON.stringify(links)||d.linkedinLinks.some(x=>x.tag!=="A"||!x.label?.includes("on LinkedIn")))bad=true;
-      if(!d.aboutClosing||d.aboutClosing.background!=="rgb(13, 29, 53)"||width>=992&&(d.aboutClosing.box.height<viewport.height*.40||d.aboutClosing.box.height>viewport.height*.70))bad=true;
+      if(!d.aboutClosing||d.aboutClosing.background!=="rgb(13, 29, 53)"||width>=992&&(d.aboutClosing.box.height<d.viewport.height*.40||d.aboutClosing.box.height>d.viewport.height*.70))bad=true;
       if(!d.aboutCtas?.some(x=>x.text==="Talk to Luminox"&&x.href.startsWith("mailto:")))bad=true;
     }
     if(name==="engineering"){
