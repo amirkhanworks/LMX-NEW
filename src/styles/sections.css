@@ -1337,3 +1337,151 @@ body[data-page="privacy"] .about-hero .prose strong{
     padding:5.5rem 1.25rem 3.25rem;
   }
 }
+
+/* Final homepage balance correction — preserve Luminox colors, reduce strong-color dominance */
+
+/* Give TWO PATHS a compact editorial footprint and safe header clearance. */
+.bridge{
+  min-height:0 !important;
+  height:auto !important;
+  padding-top:clamp(7rem,9vw,8.5rem);
+  padding-bottom:clamp(4.5rem,6vw,6rem);
+}
+
+.bridge__intro{
+  padding:clamp(3rem,5vw,4.5rem) var(--gutter);
+  padding-left:max(var(--gutter),calc(var(--corner-size) + 2rem));
+}
+
+.bridge__path{
+  padding:clamp(3.5rem,5vw,5rem) 3.5vw;
+}
+
+.bridge__path h3{
+  max-width:14ch;
+}
+
+/* Make the transition visibly breathe instead of forcing two strong colors together. */
+.section-break{
+  height:clamp(2rem,3vw,3rem) !important;
+  background:var(--paper) !important;
+}
+
+/* Keep NO REWIRING important, but make it content-led rather than a full blue wall. */
+.spread.no-rewiring{
+  min-height:0 !important;
+  height:auto !important;
+  padding:clamp(3.25rem,4.5vw,4.25rem) var(--gutter) clamp(3.25rem,4.5vw,4.25rem) !important;
+}
+
+/* Use a light editorial rest for the keychain story so dark sections are not stacked. */
+.keychain[data-bg="dark"]{
+  background:var(--paper) !important;
+  color:var(--ink) !important;
+  padding-top:clamp(7rem,9vw,8.5rem);
+  padding-bottom:clamp(7rem,9vw,8.5rem);
+}
+
+.keychain[data-bg="dark"] .keychain__story>div{
+  border-color:var(--ink-10);
+}
+
+.keychain[data-bg="dark"] .keychain__story>div p:last-child{
+  color:var(--ink-60);
+}
+
+.keychain[data-bg="dark"] .keychain__art svg{
+  color:var(--ink);
+}
+
+/* Keep the safety section as the later high-contrast brand moment. */
+.safe{
+  height:110vh;
+}
+
+/* Reduce the final blue CTA's viewport dominance while keeping the section and CTA intact. */
+.cta{
+  min-height:64vh;
+}
+
+@media(max-width:991px){
+  .bridge{
+    min-height:0 !important;
+    height:auto !important;
+    padding-top:6.25rem;
+    padding-bottom:5rem;
+  }
+
+  .bridge__intro{
+    padding:4.5rem var(--gutter) 3rem;
+    padding-left:max(var(--gutter),calc(var(--corner-size) + 1.5rem));
+  }
+
+  .bridge__path{
+    padding:4rem var(--gutter);
+  }
+
+  .section-break{
+    height:2rem !important;
+  }
+
+  .spread.no-rewiring{
+    min-height:0 !important;
+    height:auto !important;
+    padding:5rem var(--gutter) 3.75rem !important;
+  }
+
+  .keychain[data-bg="dark"]{
+    padding-top:7rem;
+    padding-bottom:7rem;
+  }
+
+  .safe{
+    height:auto;
+  }
+
+  .safe__screen{
+    min-height:68svh;
+  }
+
+  .cta{
+    min-height:68svh;
+  }
+}
+
+@media(max-width:560px){
+  .bridge{
+    padding-top:5.5rem;
+    padding-bottom:4.5rem;
+  }
+
+  .bridge__intro{
+    padding:4rem var(--gutter) 2.75rem;
+    padding-left:var(--gutter);
+  }
+
+  .bridge__path{
+    padding:3.5rem var(--gutter);
+  }
+
+  .section-break{
+    height:1.5rem !important;
+  }
+
+  .spread.no-rewiring{
+    padding:5rem 1.25rem 3.25rem !important;
+  }
+
+  .keychain[data-bg="dark"]{
+    padding-top:5.75rem;
+    padding-bottom:5.75rem;
+  }
+
+  .safe__screen{
+    min-height:64svh;
+  }
+
+  .cta{
+    min-height:64svh;
+  }
+}
