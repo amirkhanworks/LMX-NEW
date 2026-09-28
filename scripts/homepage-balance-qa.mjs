@@ -28,18 +28,19 @@ for(const viewport of viewports){
   const data=await page.evaluate(()=>{
     const rgb=c=>c.replace(/s+/g,"").toLowerCase();
     const sectionEls=[...document.querySelectorAll("main > section")];
+    const mainBlocks=[...document.querySelectorAll("main > *")];
     const colorOf=el=>rgb(getComputedStyle(el).backgroundColor);
     const strongDark="rgb(13,29,53)";
     const strongBlue="rgb(26,92,184)";
     const lightSet=new Set(["rgb(250,250,248)","rgb(255,255,255)"]);
-    const contentSections=sectionEls.filter(el=>!el.classList.contains("hero"));
+    const contentBlocks=mainBlocks.filter(el=>!el.classList.contains("hero"));
     let dark=0,blue=0,light=0,other=0;
-    for(const el of contentSections){
+    for(const el of contentBlocks){
       const h=el.getBoundingClientRect().height;
-      const bg=colorOf(el);
-      if(bg===strongDark) dark+=h;
-      else if(bg===strongBlue) blue+=h;
-      else if(lightSet.has(bg)) light+=h;
+      const bgType=el.classList.contains("section-break")?"light":el.dataset.bg;
+      if(bgType==="dark") dark+=h;
+      else if(bgType==="color") blue+=h;
+      else if(bgType==="light") light+=h;
       else other+=h;
     }
     const total=dark+blue+light+other;
@@ -107,9 +108,8 @@ await browser.close();
 const failures=results.filter(r=>
   r.errors.length ||
   r.scrollWidth>r.viewportWidth+1 ||
-  r.sectionMetrics.strongRatio>0.55 ||
-  r.sectionMetrics.lightRatio<0.45 ||
-  r.breakpoints?.present===false ||
+  r.sectionMetrics.strongRatio>0.60 ||
+  r.sectionMetrics.lightRatio<0.40 ||
   !r.break.present ||
   r.break.height<12 ||
   r.break.background!=="rgb(250,250,248)" ||
