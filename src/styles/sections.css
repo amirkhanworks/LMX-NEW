@@ -2029,3 +2029,24 @@ body[data-page="about"] .about-cta .lede{
     font-size:clamp(4rem,16vw,5.75rem);
   }
 }
+
+/* Keep Vision + Mission within one calm desktop screen without shrinking readability. */
+@media(min-width:992px){
+  body[data-page="about"] .about-vision{
+    min-height:72vh;
+    padding-top:4.75rem;
+    padding-bottom:4.75rem;
+    gap:3rem;
+  }
+
+  body[data-page="about"] .about-vision .vision-item>p:last-child{
+    font-size:clamp(1.7rem,2.55vw,2.7rem);
+    line-height:1.16;
+  }
+}
+
+@media(max-width:991px){
+  body[data-page="about"] .about-vision .vision-item>p:last-child{
+    line-height:1.16;
+  }
+}
