@@ -2,6 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
 
+// Hero master source: assets-src/img/hero-living-room.png is the single source of truth.
+
 const src = "assets-src/img";
 const out = "public/img";
 const widths = [640, 1024, 1600, 2400, 3840];
