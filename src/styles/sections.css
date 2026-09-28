@@ -1485,3 +1485,43 @@ body[data-page="privacy"] .about-hero .prose strong{
     min-height:64svh;
   }
 }
+
+/* Tighten TWO PATHS itself so the homepage moves out of the large navy field sooner. */
+@media(min-width:992px){
+  .bridge{
+    min-height:0 !important;
+    height:auto !important;
+    align-items:start;
+  }
+
+  .bridge__intro{
+    align-content:start;
+    padding-top:clamp(6rem,7vw,7rem);
+    padding-bottom:3.5rem;
+  }
+
+  .bridge__path{
+    align-content:start;
+    padding-top:clamp(6rem,7vw,7rem);
+    padding-bottom:3.5rem;
+  }
+}
+
+@media(max-width:991px){
+  .bridge{
+    min-height:0 !important;
+    height:auto !important;
+  }
+
+  .bridge__intro{
+    align-content:start;
+    padding-top:5.5rem;
+    padding-bottom:3rem;
+  }
+
+  .bridge__path{
+    align-content:start;
+    padding-top:4rem;
+    padding-bottom:3.25rem;
+  }
+}
