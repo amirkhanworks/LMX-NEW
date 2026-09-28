@@ -18,7 +18,7 @@ function walk(dir) {
   });
 }
 
-const masters = walk(src).filter((p) => !p.includes(`${path.sep}team${path.sep}`));
+const masters = walk(src).filter((p) => !p.includes(`${path.sep}team${path.sep}`) && path.basename(p) !== "hero-living-room.png");
 const manifest = {};
 for (const file of masters) {
   const rel = path.relative(src, file);
