@@ -129,6 +129,20 @@ for (const [name,url] of Object.entries(pages)) {
       };
 
       if(name==="home"){
+        const nr=document.querySelector(".no-rewiring");
+        const nrTitle=document.querySelector("#spread-title");
+        out.noRewiring={
+          present:!!nr,
+          sectionHeight:nr?.getBoundingClientRect().height||0,
+          title:normalize(nrTitle?.innerText||""),
+          titleParts:[...document.querySelectorAll(".no-rewiring__title span")].map(e=>normalize(e.innerText)),
+          eyebrow:normalize(document.querySelector(".no-rewiring__eyebrow")?.innerText||""),
+          note:normalize(document.querySelector(".no-rewiring__note")?.innerText||""),
+          productVisual:!!document.querySelector(".retrofit-visual"),
+          moduleLogo:!!document.querySelector(".retrofit-module img"),
+          benefits:[...document.querySelectorAll(".no-rewiring__benefit")].map(e=>({title:normalize(e.querySelector("h3")?.innerText||""),icon:!!e.querySelector("svg"),text:normalize(e.querySelector("p")?.innerText||"")})),
+          cta:[...document.querySelectorAll(".no-rewiring__cta")].map(a=>({text:normalize(a.innerText),href:a.href}))
+        };
         out.roomTitles=[...document.querySelectorAll(".panel__title")].map(e=>normalize(e.innerText));
         out.controls=[...document.querySelectorAll(".ctrl h3")].map(e=>normalize(e.innerText));
         out.acCaveatCount=document.querySelectorAll(".panel__status-note").length;
@@ -490,7 +504,10 @@ async function notFoundSweep(){
 
 results.interaction={};
 for(const name of ["home","about","engineering","privacy"]){
-  for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
+  const viewports=name==="home"
+    ? [{width:1440,height:900},{width:1280,height:800},{width:1024,height:768},{width:768,height:1024},{width:390,height:844},{width:360,height:800}]
+    : [{width:1440,height:900},{width:390,height:844}];
+  for(const viewport of viewports){
     results.interaction["internal-"+name+"-"+viewport.width]=await internalLinkSweep(name,pages[name],viewport);
   }
 }
@@ -524,6 +541,9 @@ for(const [name,viewports] of Object.entries(results.pages)){
       d.preloaderText.includes("19.13° N")||d.preloaderText.includes("72.83° E")||d.preloaderOutlines>0||d.imageBrokenCount>0;
     if(name==="home"){
       if(d.roomTitles?.join("|")!=="Lights|Fans|LEDs|TV|Water pump|Security & surveillance|Curtains|AC")bad=true;
+      if(!d.noRewiring?.present||d.noRewiring.title!=="No Rewiring."||d.noRewiring.titleParts.join("|")!=="No|Rewiring."||d.noRewiring.eyebrow!=="Our retrofit solution"||d.noRewiring.note!=="Installs behind your existing switchboard."||!d.noRewiring.productVisual||!d.noRewiring.moduleLogo||d.noRewiring.benefits.length!==4||!d.noRewiring.benefits.every(v=>v.icon&&v.title&&v.text)||!d.noRewiring.cta?.some(x=>x.text==="Book a Home Demo →"&&x.href.startsWith("https://form.typeform.com/to/")))bad=true;
+      if(width>=992&&d.noRewiring?.sectionHeight>viewport.height*.9)bad=true;
+      if(d.noRewiring?.sectionHeight<200)bad=true;
       if(d.controls?.join("|")!=="App|Voice|Keychain Remote")bad=true;
       if(d.acCaveatCount!==1||d.testimonial1Count!==1||d.testimonial2Count!==1)bad=true;
       if(name==="home"){
