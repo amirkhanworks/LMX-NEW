@@ -387,31 +387,35 @@ body[data-page="privacy"] .about-hero .prose strong{
   }
 }
 
-/* Home hero: cleaner premium text treatment while keeping the existing image/layout */
+/* Home hero: premium bottom-left editorial treatment */
 @media(min-width:992px){
   .hero__content{
-    top:28%;
-    bottom:auto;
     left:5.5vw;
     right:auto;
-    width:min(520px,calc(100vw - 11vw));
-    max-width:520px;
+    top:auto;
+    bottom:10vh;
+    width:min(690px,48vw);
+    max-width:690px;
   }
 
   .hero #hero-title{
-    max-width:520px;
+    max-width:690px;
     margin:0;
   }
 
   .hero #hero-title .display__line{
-    font-size:clamp(4rem,4.25vw,4.75rem);
-    line-height:1;
-    max-width:520px;
+    font-size:clamp(2.9rem,3.4vw,4.2rem);
+    line-height:.98;
+    max-width:690px;
+  }
+
+  .hero #hero-title .hero__title-accent{
+    color:var(--amber);
   }
 
   .hero .hero__lede{
-    max-width:420px;
-    font-size:clamp(1.125rem,1.05rem + .25vw,1.25rem);
+    max-width:38ch;
+    font-size:clamp(1.05rem,1rem + .25vw,1.25rem);
     line-height:1.45;
     margin:0;
   }
@@ -422,7 +426,7 @@ body[data-page="privacy"] .about-hero .prose strong{
     inset:0;
     z-index:1;
     pointer-events:none;
-    background:linear-gradient(90deg,rgba(13,29,53,.32) 0%,rgba(13,29,53,.17) 24%,rgba(13,29,53,0) 55%);
+    background:radial-gradient(circle at 14% 92%,rgba(13,29,53,.36) 0%,rgba(13,29,53,.20) 28%,rgba(13,29,53,0) 62%);
   }
 }
 
@@ -431,19 +435,23 @@ body[data-page="privacy"] .about-hero .prose strong{
     left:var(--gutter);
     right:var(--gutter);
     top:auto;
-    bottom:7vh;
+    bottom:max(6vh,2.75rem);
     max-width:none;
   }
 
   .hero #hero-title{
-    max-width:330px;
+    max-width:calc(100vw - (2 * var(--gutter)));
     margin:0;
   }
 
   .hero #hero-title .display__line{
-    font-size:clamp(2.35rem,12vw,3.1rem);
+    font-size:clamp(2.1rem,9.5vw,3.2rem);
     line-height:1;
-    max-width:330px;
+    max-width:100%;
+  }
+
+  .hero #hero-title .hero__title-accent{
+    color:var(--amber);
   }
 
   .hero .hero__lede{
@@ -459,6 +467,6 @@ body[data-page="privacy"] .about-hero .prose strong{
     inset:0;
     z-index:1;
     pointer-events:none;
-    background:linear-gradient(0deg,rgba(13,29,53,.28) 0%,rgba(13,29,53,.08) 42%,rgba(13,29,53,0) 72%);
+    background:radial-gradient(circle at 18% 92%,rgba(13,29,53,.34) 0%,rgba(13,29,53,.16) 30%,rgba(13,29,53,0) 66%);
   }
 }
