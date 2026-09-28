@@ -516,6 +516,10 @@ for(const [name,viewports] of Object.entries(results.pages)){
       if(d.roomTitles?.join("|")!=="Lights|Fans|LEDs|TV|Water pump|Security & surveillance|Curtains|AC")bad=true;
       if(d.controls?.join("|")!=="App|Voice|Keychain Remote")bad=true;
       if(d.acCaveatCount!==1||d.testimonial1Count!==1||d.testimonial2Count!==1)bad=true;
+      if(name==="home"){
+        const r=d.originalRoomImages||{};
+        if(!r.lights?.present||!r.lights?.exact||!r.fans?.present||!r.fans?.exact||r.generatedLightRefs!==0||r.generatedFanRefs!==0)bad=true;
+      }
       if(!d.waitlistPresent)bad=true;
       if(!d.homeDemoCtas?.some(x=>x.text==="Book a Home Demo"&&x.href.startsWith("https://form.typeform.com/to/")))bad=true;
       if(width<=390&&d.heroLineBoxes?.some(b=>b.x<-1||b.right>width+1))bad=true;
