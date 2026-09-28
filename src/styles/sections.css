@@ -687,3 +687,332 @@ body[data-page="privacy"] .about-hero .prose strong{
 @media(max-width:560px){
   .section-break{height:1.5rem}
 }
+
+/* Compact product-focused No Rewiring section */
+.spread.no-rewiring{
+  min-height:0 !important;
+  height:auto !important;
+  display:grid;
+  place-content:normal;
+  justify-items:center;
+  gap:0;
+  overflow:hidden;
+  box-sizing:border-box;
+  background:var(--blue);
+  color:var(--paper);
+  padding:clamp(4rem,7vw,5.5rem) var(--gutter) clamp(4.5rem,7vw,5.5rem);
+}
+
+.no-rewiring__intro{
+  width:min(100%,900px);
+  display:grid;
+  justify-items:center;
+  text-align:center;
+  gap:0;
+}
+
+.no-rewiring__eyebrow{
+  margin:0 0 .85rem;
+  color:var(--paper);
+  font-size:var(--fs-label);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.no-rewiring__title{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:baseline;
+  gap:.22em;
+  margin:0;
+  font-size:clamp(2.9rem,5.5vw,5.15rem) !important;
+  line-height:.95;
+  letter-spacing:-.035em;
+  white-space:normal;
+}
+
+.no-rewiring__title span{
+  display:inline-block;
+  word-spacing:normal;
+}
+
+.no-rewiring__title span:first-child{
+  color:var(--paper);
+}
+
+.no-rewiring__title span:last-child{
+  color:var(--amber);
+}
+
+.no-rewiring__note{
+  margin:.9rem 0 0;
+  color:var(--paper);
+  font-size:clamp(.72rem,.65rem + .12vw,.85rem);
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.retrofit-visual{
+  width:min(100%,760px);
+  margin:clamp(2.25rem,4vw,3rem) auto clamp(2.5rem,4vw,3.25rem);
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(150px,190px) minmax(0,1fr);
+  align-items:center;
+  gap:clamp(1rem,2.5vw,2rem);
+  position:relative;
+}
+
+.retrofit-visual::before,
+.retrofit-visual::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:clamp(2rem,6vw,6rem);
+  height:1px;
+  background:rgba(250,250,248,.35);
+  transform:translateY(-50%);
+}
+
+.retrofit-visual::before{left:0}
+.retrofit-visual::after{right:0}
+
+.retrofit-board{
+  width:100%;
+  max-width:220px;
+  aspect-ratio:1.58;
+  border-radius:10px;
+  background:var(--paper);
+  border:1px solid rgba(13,29,53,.12);
+  box-shadow:0 16px 28px rgba(13,29,53,.22);
+  padding:clamp(1rem,2vw,1.4rem);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:.55rem;
+  justify-self:center;
+  position:relative;
+  z-index:1;
+}
+
+.retrofit-board span{
+  width:100%;
+  aspect-ratio:.48;
+  border-radius:4px;
+  background:linear-gradient(to bottom,#f8f8f6 0 16%,#d9d9d4 16% 19%,#f8f8f6 19%);
+  border:1px solid #c4c4bf;
+  box-shadow:inset 0 -8px 0 #ecece8;
+}
+
+.retrofit-board::after{
+  content:"";
+  position:absolute;
+  inset:14% 9% auto;
+  height:4px;
+  border-radius:999px;
+  background:var(--paper-30);
+}
+
+.retrofit-module{
+  min-height:108px;
+  border-radius:12px;
+  padding:1.2rem 1rem;
+  background:var(--navy);
+  border:1px solid rgba(250,250,248,.2);
+  box-shadow:0 18px 34px rgba(13,29,53,.28);
+  display:grid;
+  align-content:center;
+  justify-items:center;
+  gap:.55rem;
+  position:relative;
+  z-index:2;
+}
+
+.retrofit-module::before,
+.retrofit-module::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:clamp(1.25rem,3vw,2.75rem);
+  height:1px;
+  background:rgba(250,250,248,.55);
+  transform:translateY(-50%);
+}
+
+.retrofit-module::before{left:100%}
+.retrofit-module::after{right:100%}
+
+.retrofit-module img{
+  width:34px;
+  height:34px;
+  object-fit:contain;
+  filter:none;
+}
+
+.retrofit-module span{
+  font:500 .67rem/1 var(--font-mono);
+  letter-spacing:.16em;
+  color:var(--paper);
+}
+
+.no-rewiring__benefits{
+  width:min(100%,980px);
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:1.5rem;
+  margin:0 auto;
+}
+
+.no-rewiring__benefit{
+  min-width:0;
+  padding:0 1rem;
+  text-align:center;
+  display:grid;
+  justify-items:center;
+  align-content:start;
+}
+
+.no-rewiring__benefit svg{
+  width:26px;
+  height:26px;
+  margin-bottom:.9rem;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.no-rewiring__benefit h3{
+  margin:0;
+  font-size:1rem;
+  line-height:1.15;
+  max-width:12ch;
+}
+
+.no-rewiring__benefit p{
+  margin:.5rem 0 0;
+  max-width:16ch;
+  color:var(--paper-60);
+  font-size:.82rem;
+  line-height:1.35;
+}
+
+.no-rewiring__cta{
+  margin-top:clamp(2rem,3vw,2.5rem);
+  background:var(--amber);
+  color:var(--navy);
+  border-color:var(--amber);
+  padding:.75rem 1.5rem;
+}
+
+.no-rewiring__cta:hover,
+.no-rewiring__cta:focus-visible{
+  background:#f1b556;
+  border-color:#f1b556;
+  color:var(--navy);
+}
+
+.no-rewiring + .how{
+  padding-top:clamp(4rem,7vw,6rem);
+}
+
+@media(max-width:991px){
+  .spread.no-rewiring{
+    padding-top:3.75rem;
+    padding-bottom:4.25rem;
+  }
+
+  .no-rewiring__benefits{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:1.75rem 1rem;
+  }
+
+  .retrofit-visual{
+    grid-template-columns:minmax(0,1fr) minmax(130px,170px) minmax(0,1fr);
+    width:min(100%,680px);
+  }
+
+  .retrofit-visual::before,
+  .retrofit-visual::after{
+    display:none;
+  }
+}
+
+@media(max-width:560px){
+  .spread.no-rewiring{
+    padding:3.25rem 1.25rem 3.75rem;
+  }
+
+  .no-rewiring__title{
+    font-size:clamp(2.55rem,11vw,3.5rem) !important;
+    gap:.16em;
+  }
+
+  .no-rewiring__note{
+    max-width:30ch;
+    line-height:1.45;
+  }
+
+  .retrofit-visual{
+    grid-template-columns:1fr;
+    width:min(100%,320px);
+    gap:.9rem;
+    margin:2rem auto 2.25rem;
+  }
+
+  .retrofit-board{
+    max-width:180px;
+  }
+
+  .retrofit-module{
+    min-height:94px;
+    width:min(160px,55%);
+    justify-self:center;
+  }
+
+  .retrofit-module::before,
+  .retrofit-module::after{
+    display:none;
+  }
+
+  .retrofit-visual .retrofit-board:first-child{
+    order:1;
+  }
+
+  .retrofit-module{
+    order:2;
+  }
+
+  .retrofit-visual .retrofit-board:last-child{
+    order:3;
+  }
+
+  .no-rewiring__benefits{
+    grid-template-columns:1fr 1fr;
+    gap:1.75rem .55rem;
+  }
+
+  .no-rewiring__benefit{
+    padding:0 .35rem;
+  }
+
+  .no-rewiring__benefit h3{
+    font-size:.9rem;
+    max-width:13ch;
+  }
+
+  .no-rewiring__benefit p{
+    font-size:.74rem;
+    max-width:17ch;
+  }
+
+  .no-rewiring__cta{
+    width:auto;
+    min-width:0;
+    padding:.75rem 1.25rem;
+  }
+
+  .no-rewiring + .how{
+    padding-top:3.5rem;
+  }
+}
